@@ -1,5 +1,7 @@
 # vue-router-md-transition
 
+[Demo with Vuetify](https://1isten.github.io/vue-router-md-transition/)
+
 This SFC wraps the built-in `<transition>` component with additional CSS style to achieve [Material Design](https://material.io/design/navigation/navigation-transitions.html#hierarchical-transitions) transition effect for `<router-view/>`.
 
 ### Example
