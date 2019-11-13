@@ -6,7 +6,7 @@ This SFC wraps the built-in `<transition>` component with additional CSS style t
 
 ### Example
 
-In `App.vue`:
+In your `App.vue`:
 
 ```html
 <template>
@@ -58,9 +58,9 @@ export default {
   /* or override the fading layer background, default is #fafafa */
   --md-fading-background: white;
 
-  /* disable offset top if not using app bar, default are 56px (when width < 960px) and 64px (when width >= 960px) */
-  --md-app-bar-height: 0;
-  --md-app-bar-height-large: 0;
+  /* disable the fading layer offset top if not using app bar */
+  --md-app-bar-height: 0; /* default is 56px */
+  --md-app-bar-height-large: 0; /* default is 64px (when viewport width >= 960px) */
 }
 </style>
 ```
