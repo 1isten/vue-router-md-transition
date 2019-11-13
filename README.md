@@ -54,6 +54,8 @@ export default {
 :root {
   /* you can override the animation duration, default is 250ms */
   --md-transition-duration: 400ms;
+  /* or override the fading layer background, default is #fafafa */
+  --md-fading-background: white;
 }
 </style>
 ```
