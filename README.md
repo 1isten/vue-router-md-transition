@@ -54,8 +54,13 @@ export default {
 :root {
   /* you can override the animation duration, default is 250ms */
   --md-transition-duration: 400ms;
+
   /* or override the fading layer background, default is #fafafa */
   --md-fading-background: white;
+
+  /* disable offset top if not using app bar, default are 56px (when width < 960px) and 64px (when width >= 960px) */
+  --md-app-bar-height: 0;
+  --md-app-bar-height-large: 0;
 }
 </style>
 ```
