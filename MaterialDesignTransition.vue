@@ -19,27 +19,41 @@ export default {
 <style scoped>
 /* nav push */
 .md-forward-leave-active, .md-forward-leave-to { /* from */
-  animation: fadeOut var(--md-transition-duration, 250ms);
   /* detach current view from the normal document flow */
   position: absolute;
-  /* retain relative width */
+  /* retain width */
   left: 0;
   right: 0;
+  /* place current view behind next view */
+  z-index: 0;
+  /* fade out current view */
+  animation: fadeOut var(--md-transition-duration, 250ms);
 }
 .md-forward-enter-active, .md-forward-enter-to { /* to */
+  position: relative;
+  /* place next view in front of current view */
+  z-index: 1;
+  /* slide in next view */
   animation: slideIn var(--md-transition-duration, 250ms);
 }
 
 /* nav back */
 .md-backward-leave-active, .md-backward-leave-to { /* from */
-  animation: slideOut var(--md-transition-duration, 250ms);
   /* detach current view from the normal document flow */
   position: absolute;
-  /* retain relative width */
+  /* retain width */
   left: 0;
   right: 0;
+  /* place current view in front of previous view */
+  z-index: 1;
+  /* slide out current view */
+  animation: slideOut var(--md-transition-duration, 250ms);
 }
 .md-backward-enter-active, .md-backward-enter-to { /* to */
+  position: relative;
+  /* place previous view behind current view */
+  z-index: 0;
+  /* fade in previous view */
   animation: fadeIn var(--md-transition-duration, 250ms);
 }
 
@@ -103,11 +117,11 @@ export default {
 
 @media screen and (min-width: 960px) {
   .md-forward-enter-active, .md-forward-enter-to {
-    animation: slideInBig var(--md-transition-duration, 250ms);
+    animation-name: slideInBig;
   }
 
   .md-backward-leave-active, .md-backward-leave-to {
-    animation: slideOutBig var(--md-transition-duration, 250ms);
+    animation-name: slideOutBig;
   }
 }
 </style>
