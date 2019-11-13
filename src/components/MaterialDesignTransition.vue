@@ -58,20 +58,21 @@ export default {
 }
 
 /* additional middle layers for fading effect */
-.md-forward-enter-active::before, .md-forward-enter-to::before, /* the layer before next view during nav push */
-.md-backward-leave-active::before, .md-backward-leave-to::before { /* the layer before current view during nav back */
+.md-forward-leave-active::after, .md-forward-leave-to::after, /* the layer after current view during nav push */
+.md-backward-enter-active::after, .md-backward-enter-to::after { /* the layer after previous view during nav back */
   content: "";
   position: absolute;
-  top: 0;
+  top: var(--md-app-bar-height, 56px);
   right: 0;
   bottom: 0;
   left: 0;
+  z-index: 999;
   background: var(--md-fading-background, #fafafa);
 }
-.md-forward-enter-active::before, .md-forward-enter-to::before {
+.md-forward-leave-active::after, .md-forward-leave-to::after {
   animation: fadeIn var(--md-transition-duration, 250ms);
 }
-.md-backward-leave-active::before, .md-backward-leave-to::before {
+.md-backward-enter-active::after, .md-backward-enter-to::after {
   animation: fadeOut var(--md-transition-duration, 250ms);
 }
 
@@ -140,6 +141,11 @@ export default {
 
   .md-backward-leave-active, .md-backward-leave-to {
     animation-name: slideOutBig;
+  }
+
+  .md-forward-leave-active::after, .md-forward-leave-to::after,
+  .md-backward-enter-active::after, .md-backward-enter-to::after {
+    top: var(--md-app-bar-height-large, 64px);
   }
 }
 </style>

@@ -72,6 +72,6 @@ export default {
 <style>
 :root {
   --md-transition-duration: 400ms;
-  --md-fading-background: white;
+  --md-fading-background: #f5f5f5;
 }
 </style>
