@@ -1,0 +1,7 @@
+// Globals
+$body-font-family: 'Roboto Mono', monospace;
+
+// Workaround for the redundant <div> inside .v-application--wrap
+.v-application--wrap > div {
+  @extend .v-application--wrap;
+}
