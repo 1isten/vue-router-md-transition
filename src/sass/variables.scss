@@ -5,3 +5,13 @@ $body-font-family: 'Roboto Mono', monospace;
 .v-application--wrap > div {
   @extend .v-application--wrap;
 }
+
+// Fix padding issue when resizing viewport
+.v-content {
+  padding-top: 56px !important;
+}
+@media screen and (min-width: 960px) {
+  .v-content {
+    padding-top: 64px !important;
+  }
+}
