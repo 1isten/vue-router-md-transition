@@ -26,8 +26,8 @@ export default {
   right: 0;
   /* place current view behind next view */
   z-index: 0;
-  /* fade out current view */
-  animation: fadeOut var(--md-transition-duration, 250ms);
+  /* remove current view ahead of time to prevent flash back issue */
+  animation: none calc(var(--md-transition-duration, 250ms) - 60ms);
 }
 .md-forward-enter-active, .md-forward-enter-to { /* to */
   position: relative;
@@ -46,15 +46,33 @@ export default {
   right: 0;
   /* place current view in front of previous view */
   z-index: 1;
-  /* slide out current view */
-  animation: slideOut var(--md-transition-duration, 250ms);
+  /* slide out current view ahead of time to prevent flash back issue */
+  animation: slideOut calc(var(--md-transition-duration, 250ms) - 60ms);
 }
 .md-backward-enter-active, .md-backward-enter-to { /* to */
   position: relative;
   /* place previous view behind current view */
   z-index: 0;
-  /* fade in previous view */
+  /* remove previous view after animation */
+  animation: none var(--md-transition-duration, 250ms);
+}
+
+/* additional middle layers for fading effect */
+.md-forward-enter-active::before, .md-forward-enter-to::before, /* the layer before next view during nav push */
+.md-backward-leave-active::before, .md-backward-leave-to::before { /* the layer before current view during nav back */
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: var(--md-fading-background, #fafafa);
+}
+.md-forward-enter-active::before, .md-forward-enter-to::before {
   animation: fadeIn var(--md-transition-duration, 250ms);
+}
+.md-backward-leave-active::before, .md-backward-leave-to::before {
+  animation: fadeOut var(--md-transition-duration, 250ms);
 }
 
 @keyframes slideIn {
