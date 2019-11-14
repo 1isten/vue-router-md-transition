@@ -19,18 +19,18 @@ export default {
 <style scoped>
 /* nav push */
 .md-forward-leave-active, .md-forward-leave-to { /* from */
-  /* detach current view from the normal document flow */
-  position: absolute;
-  /* retain width */
-  left: 0;
-  right: 0;
+  position: relative;
   /* place current view behind next view */
   z-index: 0;
   /* remove current view ahead of time to prevent flash back issue */
   animation: none calc(var(--md-transition-duration, 250ms) - 60ms);
 }
 .md-forward-enter-active, .md-forward-enter-to { /* to */
-  position: relative;
+  /* detach next view from the normal document flow */
+  position: absolute;
+  /* retain width */
+  left: 0;
+  right: 0;
   /* place next view in front of current view */
   z-index: 1;
   /* slide in next view */
