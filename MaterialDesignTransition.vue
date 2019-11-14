@@ -19,18 +19,18 @@ export default {
 <style scoped>
 /* nav push */
 .md-forward-leave-active, .md-forward-leave-to { /* from */
-  position: relative;
+  /* detach current view from the normal document flow */
+  position: absolute;
+  /* retain width */
+  left: 0;
+  right: 0;
   /* place current view behind next view */
   z-index: 0;
   /* remove current view ahead of time to prevent flash back issue */
   animation: none calc(var(--md-transition-duration, 250ms) - 60ms);
 }
 .md-forward-enter-active, .md-forward-enter-to { /* to */
-  /* detach next view from the normal document flow */
-  position: absolute;
-  /* retain width */
-  left: 0;
-  right: 0;
+  position: relative;
   /* place next view in front of current view */
   z-index: 1;
   /* slide in next view */
@@ -39,18 +39,18 @@ export default {
 
 /* nav back */
 .md-backward-leave-active, .md-backward-leave-to { /* from */
-  /* detach current view from the normal document flow */
-  position: absolute;
-  /* retain width */
-  left: 0;
-  right: 0;
+  position: relative;
   /* place current view in front of previous view */
   z-index: 1;
   /* slide out current view ahead of time to prevent flash back issue */
   animation: slideOut calc(var(--md-transition-duration, 250ms) - 60ms);
 }
 .md-backward-enter-active, .md-backward-enter-to { /* to */
-  position: relative;
+  /* detach previous view from the normal document flow */
+  position: absolute;
+  /* retain width */
+  left: 0;
+  right: 0;
   /* place previous view behind current view */
   z-index: 0;
   /* remove previous view after animation */
