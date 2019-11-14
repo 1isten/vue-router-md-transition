@@ -1,5 +1,11 @@
 <template>
-  <transition :name="reverse ? 'md-backward' : 'md-forward'">
+  <transition
+    :name="reverse ? 'md-backward' : 'md-forward'"
+    @before-leave="beforeLeave"
+    @after-enter="afterEnter"
+    @enter-cancelled="enterCancelled"
+    @leave-cancelled="leaveCancelled"
+  >
     <slot></slot>
   </transition>
 </template>
@@ -13,6 +19,43 @@ export default {
       default: false,
     },
   },
+  data: () => ({
+    parentPosition: null,
+  }),
+  methods: {
+    beforeLeave(el) {
+      const parent = el.parentElement;
+      if (parent) this.setParentElementPosition(parent);
+    },
+    afterEnter(el) {
+      const parent = el.parentElement;
+      if (parent) this.resetParentElementPosition(parent);
+    },
+    leaveCancelled(el) {
+      const parent = el.parentElement;
+      if (parent) this.resetParentElementPosition(parent);
+    },
+    enterCancelled(el) {
+      const parent = el.parentElement;
+      if (parent) this.resetParentElementPosition(parent);
+    },
+    setParentElementPosition(el) {
+      // backup parent element's position
+      if (this.parentPosition === null) {
+        this.parentPosition = el.style.position;
+      }
+      // set parent element's position to relative
+      el.style.position = 'relative';
+    },
+    resetParentElementPosition(el) {
+      // revert parent element's position
+      el.style.position = this.parentPosition;
+      // clear up
+      if (!el.attributes.style.value) {
+        el.removeAttribute('style');
+      }
+    },
+  },
 };
 </script>
 
@@ -21,7 +64,7 @@ export default {
 .md-forward-leave-active, .md-forward-leave-to { /* from */
   /* detach current view from the normal document flow */
   position: absolute;
-  /* retain width */
+  /* retain width in non-static positioned parent element */
   left: 0;
   right: 0;
   /* place current view behind next view */
@@ -41,7 +84,7 @@ export default {
 .md-backward-leave-active, .md-backward-leave-to { /* from */
   /* detach current view from the normal document flow */
   position: absolute;
-  /* retain width */
+  /* retain width in non-static positioned parent element */
   left: 0;
   right: 0;
   /* place current view in front of previous view */
