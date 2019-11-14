@@ -51,7 +51,7 @@ export default {
       // revert parent element's position
       el.style.position = this.parentPosition;
       // clear up
-      if (!el.attributes.style.value) {
+      if (el.hasAttribute('style') && !el.attributes.style.value) {
         el.removeAttribute('style');
       }
     },
