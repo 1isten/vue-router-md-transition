@@ -1,0 +1,66 @@
+{
+  "name": "vue-router-md-transition",
+  "version": "0.1.0",
+  "description": "Material Design navigation transition for Vue Router",
+  "keywords": [
+    "material design",
+    "transition",
+    "vue",
+    "vue router",
+    "sfc"
+  ],
+  "files": [
+    "dist",
+    "src"
+  ],
+  "main": "dist/vue-router-md-transition.common.js",
+  "module": "dist/vue-router-md-transition.common.js",
+  "unpkg": "dist/vue-router-md-transition.umd.min.js",
+  "jsdelivr": "dist/vue-router-md-transition.umd.min.js",
+  "homepage": "https://github.com/1isten/vue-router-md-transition#readme",
+  "repository": "https://github.com/1isten/vue-router-md-transition.git",
+  "author": "1isten <sten.li@foxmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "build": "npm run build:common && npm run build:umd",
+    "build:common": "vue-cli-service build --no-clean --target lib --formats commonjs src/components/MaterialDesignTransition.vue",
+    "build:umd": "vue-cli-service build --no-clean --target lib --formats umd,umd-min src/main.js",
+    "postbuild": "rm dist/demo.html",
+    "lint": "vue-cli-service lint"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^4.0.0",
+    "@vue/cli-plugin-eslint": "^4.0.0",
+    "@vue/cli-service": "^4.0.0",
+    "babel-eslint": "^10.0.3",
+    "core-js": "^3.3.2",
+    "eslint": "^5.16.0",
+    "eslint-plugin-vue": "^5.0.0",
+    "vue": "^2.6.10",
+    "vue-template-compiler": "^2.6.10"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "eslint:recommended"
+    ],
+    "rules": {},
+    "parserOptions": {
+      "ecmaVersion": 6,
+      "parser": "babel-eslint"
+    }
+  },
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {}
+    }
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions"
+  ]
+}
