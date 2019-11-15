@@ -1,4 +1,4 @@
-# vue-router-md-transition
+# vue-router-md-transition [![Version](https://img.shields.io/npm/v/vue-router-md-transition)](https://www.npmjs.com/package/vue-router-md-transition) [![Size](https://img.shields.io/bundlephobia/minzip/vue-router-md-transition@1.0.0?color=brightgreen&label=gzip%20size)](https://bundlephobia.com/result?p=vue-router-md-transition@1.0.0)
 
 The `MaterialDesignTransition.vue` SFC(Single File Component) wraps Vue's built-in `<transition>` component with additional CSS styles to achieve [Material Design](https://material.io/design/navigation/navigation-transitions.html#hierarchical-transitions) transition effect.
 
