@@ -64,7 +64,7 @@ export default {
 .md-forward-leave-active, .md-forward-leave-to { /* from */
   /* detach current view from the normal document flow */
   position: absolute;
-  /* retain width in non-static positioned parent element */
+  /* retain full width in non-static positioned parent element */
   left: 0;
   right: 0;
   /* place current view behind next view */
@@ -84,7 +84,7 @@ export default {
 .md-backward-leave-active, .md-backward-leave-to { /* from */
   /* detach current view from the normal document flow */
   position: absolute;
-  /* retain width in non-static positioned parent element */
+  /* retain full width in non-static positioned parent element */
   left: 0;
   right: 0;
   /* place current view in front of previous view */
@@ -117,6 +117,13 @@ export default {
 }
 .md-backward-enter-active::after, .md-backward-enter-to::after {
   animation: fadeOut var(--md-transition-duration, 250ms);
+}
+
+/* unset full width retainment */
+.md-auto-width.md-forward-leave-active, .md-auto-width.md-forward-leave-to,
+.md-auto-width.md-backward-leave-active, .md-auto-width.md-backward-leave-to {
+  left: unset;
+  right: unset;
 }
 
 @keyframes slideIn {
