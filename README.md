@@ -133,4 +133,23 @@ There are currently 4 CSS variables you can override:
 </style>
 ```
 
+### Beyond `<router-view/>`
+
+By default, the `<md-transition></md-transition>` will treat the element inside it as a full width (block-level) element. This should be fine under most circumstances as the `<router-view/>` is usually a full width element. But you can add the `.md-auto-width` class to disable this feature in case you don't use a full width router view:
+
+```html
+<md-transition class="md-auto-width">
+  <router-view/>
+</md-transition>
+```
+
+In fact, with `.md-auto-width` applied, you can not only use this package for Vue Router, but also any arbitrary transitions supported by Vue:
+
+```html
+<md-transition class="md-auto-width">
+  <div key="foo" v-if="show">Foo</div>
+  <div key="bar" v-else>Bar</div>
+</md-transition>
+```
+
 If you want more customizations, you can simply take the `src/components/MaterialDesignTransition.vue` file and use it just as any normal Vue SFC and tweak it as you like. Or you can submit a pull request to help me make it better.
