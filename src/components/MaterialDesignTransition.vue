@@ -192,6 +192,12 @@ export default {
   }
 }
 
+/* set fading layer offset top to 128px when using an extended material design app bar */
+.md-app-bar-extended.md-forward-leave-active::after, .md-app-bar-extended.md-forward-leave-to::after,
+.md-app-bar-extended.md-backward-enter-active::after, .md-app-bar-extended.md-backward-enter-to::after {
+  top: 128px;
+}
+
 /* unset app bar offset top for the fading layers */
 .md-no-app-bar.md-forward-leave-active::after, .md-no-app-bar.md-forward-leave-to::after,
 .md-no-app-bar.md-backward-enter-active::after, .md-no-app-bar.md-backward-enter-to::after {
