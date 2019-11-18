@@ -119,13 +119,6 @@ export default {
   animation: fadeOut var(--md-transition-duration, 250ms);
 }
 
-/* unset full width retainment */
-.md-auto-width.md-forward-leave-active, .md-auto-width.md-forward-leave-to,
-.md-auto-width.md-backward-leave-active, .md-auto-width.md-backward-leave-to {
-  left: unset;
-  right: unset;
-}
-
 @keyframes slideIn {
   from {
     transform: translate3d(0, 56px, 0);
@@ -197,5 +190,24 @@ export default {
   .md-backward-enter-active::after, .md-backward-enter-to::after {
     top: var(--md-app-bar-height-large, 64px);
   }
+}
+
+/* set fading layer offset top to 128px when using an extended material design app bar */
+.md-app-bar-extended.md-forward-leave-active::after, .md-app-bar-extended.md-forward-leave-to::after,
+.md-app-bar-extended.md-backward-enter-active::after, .md-app-bar-extended.md-backward-enter-to::after {
+  top: 128px;
+}
+
+/* unset app bar offset top for the fading layers */
+.md-no-app-bar.md-forward-leave-active::after, .md-no-app-bar.md-forward-leave-to::after,
+.md-no-app-bar.md-backward-enter-active::after, .md-no-app-bar.md-backward-enter-to::after {
+  top: 0;
+}
+
+/* unset full width retainment */
+.md-auto-width.md-forward-leave-active, .md-auto-width.md-forward-leave-to,
+.md-auto-width.md-backward-leave-active, .md-auto-width.md-backward-leave-to {
+  left: unset;
+  right: unset;
 }
 </style>
