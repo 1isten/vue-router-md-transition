@@ -1,4 +1,4 @@
-# vue-router-md-transition [![Version](https://img.shields.io/npm/v/vue-router-md-transition)](https://www.npmjs.com/package/vue-router-md-transition) [![Size](https://img.shields.io/bundlephobia/minzip/vue-router-md-transition@1.1.0?color=brightgreen&label=gzip%20size)](https://bundlephobia.com/result?p=vue-router-md-transition@1.1.0)
+# vue-router-md-transition [![Version](https://img.shields.io/npm/v/vue-router-md-transition)](https://www.npmjs.com/package/vue-router-md-transition)
 
 The `MaterialDesignTransition.vue` SFC(Single File Component) wraps Vue's built-in `<transition>` component with additional CSS styles to achieve [Material Design](https://material.io/design/navigation/navigation-transitions.html#hierarchical-transitions) transition effect.
 
@@ -62,7 +62,7 @@ export default {
 
 ### Customize:
 
-Revert the transition direction:
+##### Revert the transition direction
 
 ```html
 <md-transition :reverse="true">
@@ -114,26 +114,68 @@ export default {
 </script>
 ```
 
-There are currently 4 CSS variables you can override:
+##### Change the transition speed
+
+Use CSS variable to override the default (250ms) animation duration:
 
 ```html
 <style>
 :root {
-  /* override the animation duration, default is 250ms */
   --md-transition-duration: 400ms;
+}
+</style>
+```
 
-  /* override the fading layer background, default is #fafafa */
+##### The fading layer
+
+The fading effect is achieved by adding an additional layer between the current view element and the upcoming view element. This fading layer is just the `::after` psuedo element of the element of current view (or previous view in reversed direction), with its `background` set to the same with the element container's background and gradually increasing its `opacity` from `0` to `1`. This creates a visual effect of fading.
+
+##### Change fading layer background
+
+Use CSS variable to override the default #fafafa) background:
+
+```html
+<style>
+:root {
   --md-fading-background: white;
+}
+</style>
+```
 
-  /* disable the fading layer offset top if you are not using the material design app bar */
-  /* default are 56px (when viewport width < 960px) and 64px (when viewport width >= 960px) */
+The get the best result, the value should match the background color of the element's container background.
+
+##### Change fading layer offset top
+
+By default, during transition there will be an offset top for the fading layer in order to not overlap with the [Material Design top app bar](https://material.io/components/app-bars-top/#specs). This can also be overriden by CSS variables:
+
+```html
+<style>
+:root {
+  /* default is 56px, when viewport width < 960px */
   --md-app-bar-height: 0;
+  /* default is 64px, when viewport width >= 960px */
   --md-app-bar-height-large: 0;
 }
 </style>
 ```
 
-### Beyond `<router-view/>`
+Furthermore, you can use `.md-no-app-bar` to quickly disable the offset top if your page is not using the app bar:
+
+```html
+<md-transition class="md-no-app-bar">
+  <router-view/>
+</md-transition>
+```
+
+Or use `.md-app-bar-extended` to set it to `128px` if you're using an [Extended top app bar](https://material.io/components/app-bars-top/#specs):
+
+```html
+<md-transition class="md-app-bar-extended">
+  <router-view/>
+</md-transition>
+```
+
+##### Beyond `<router-view/>`
 
 By default, the `<md-transition></md-transition>` will treat the element inside it as a full width (block-level) element. This should be fine under most circumstances as the `<router-view/>` is usually a full width element. But you can add the `.md-auto-width` class to disable this feature in case you don't use a full width router view:
 
