@@ -36,6 +36,7 @@ export default {
       },
       parent: {
         position: null,
+        minHeight: null,
         maxHeight: null,
         overflow: null,
       },
@@ -65,6 +66,9 @@ export default {
       if (this.backup.parent.position === null) {
         this.backup.parent.position = parent.style.position;
       }
+      if (this.backup.parent.minHeight === null) {
+        this.backup.parent.minHeight = parent.style.minHeight;
+      }
       if (this.backup.parent.maxHeight === null) {
         this.backup.parent.maxHeight = parent.style.maxHeight;
       }
@@ -72,6 +76,7 @@ export default {
         this.backup.parent.overflow = parent.style.overflow;
       }
       parent.style.position = 'relative';
+      parent.style.minHeight = '100vh';
       parent.style.maxHeight = '100vh';
       parent.style.overflow = 'hidden';
       if (current.clientHeight < parent.clientHeight) {
@@ -91,6 +96,9 @@ export default {
       if (parent.style.position === 'relative') {
         parent.style.position = this.backup.parent.position;
       }
+      if (parent.style.minHeight === '100vh') {
+        parent.style.minHeight = this.backup.parent.minHeight;
+      }
       if (parent.style.maxHeight === '100vh') {
         parent.style.maxHeight = this.backup.parent.maxHeight;
       }
@@ -98,6 +106,7 @@ export default {
         parent.style.overflow = this.backup.parent.overflow;
       }
       this.backup.parent.position = null;
+      this.backup.parent.minHeight = null;
       this.backup.parent.maxHeight = null;
       this.backup.parent.overflow = null;
       if (parent.hasAttribute('style') && !parent.attributes.style.value) {
