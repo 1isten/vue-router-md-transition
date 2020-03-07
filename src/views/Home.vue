@@ -1,5 +1,5 @@
 <template>
-  <v-content class="fill-height">
+  <v-content>
     <v-app-bar app dark tag="section">
       <v-app-bar-nav-icon @click="$store.dispatch('toggleDrawer')" class="d-lg-none" />
       <v-toolbar-title>Home</v-toolbar-title>

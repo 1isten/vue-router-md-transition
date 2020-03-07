@@ -1,5 +1,5 @@
 <template>
-  <v-content class="fill-height">
+  <v-content>
     <v-app-bar app dark color="accent" tag="section">
       <v-btn icon @click="$router.back()" class="d-lg-none">
         <v-icon>mdi-arrow-left</v-icon>
