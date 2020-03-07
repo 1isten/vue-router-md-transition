@@ -30,53 +30,78 @@ export default {
     },
   },
   data: () => ({
-    parentPosition: null,
-    parentOverflow: null,
+    backup: {
+      current: {
+        minHeight: null,
+      },
+      parent: {
+        position: null,
+        maxHeight: null,
+        overflow: null,
+      },
+    },
   }),
   methods: {
     beforeLeave(el) {
       if (this.disabled || !el) return;
-      const parent = el.parentElement;
-      if (parent) this.setParentElementStyle(parent);
+      this.setTemporaryStyle(el, el.parentElement);
     },
     afterEnter(el) {
       if (this.disabled || !el) return;
-      const parent = el.parentElement;
-      if (parent) this.unsetParentElementStyle(parent);
+      this.unsetTemporaryStyle(el, el.parentElement);
     },
     leaveCancelled(el) {
       if (this.disabled || !el) return;
-      const parent = el.parentElement;
-      if (parent) this.unsetParentElementStyle(parent);
+      this.unsetTemporaryStyle(el, el.parentElement);
     },
     enterCancelled(el) {
       if (this.disabled || !el) return;
-      const parent = el.parentElement;
-      if (parent) this.unsetParentElementStyle(parent);
+      this.unsetTemporaryStyle(el, el.parentElement);
     },
-    setParentElementStyle(el) {
-      if (this.disabled || !el) return;
-      if (this.parentPosition === null) {
-        this.parentPosition = el.style.position;
+    setTemporaryStyle(current, parent) {
+      if (this.disabled || !current || !parent) return;
+      if (this.backup.parent.position === null) {
+        this.backup.parent.position = parent.style.position;
       }
-      if (this.parentOverflow === null) {
-        this.parentOverflow = el.style.overflow;
+      if (this.backup.parent.maxHeight === null) {
+        this.backup.parent.maxHeight = parent.style.maxHeight;
       }
-      el.style.position = 'relative';
-      el.style.overflow = 'hidden';
+      if (this.backup.parent.overflow === null) {
+        this.backup.parent.overflow = parent.style.overflow;
+      }
+      parent.style.position = 'relative';
+      parent.style.maxHeight = '100vh';
+      parent.style.overflow = 'hidden';
+      if (current.clientHeight < parent.clientHeight) {
+        if (this.backup.current.minHeight === null) {
+          this.backup.current.minHeight = current.style.minHeight;
+        }
+        current.style.minHeight = '100vh';
+      }
     },
-    unsetParentElementStyle(el) {
-      if (this.disabled || !el) return;
-      if (el.style.position === 'relative') {
-        el.style.position = this.parentPosition;
+    unsetTemporaryStyle(current, parent) {
+      if (this.disabled || !current || !parent) return;
+      if (parent.style.position === 'relative') {
+        parent.style.position = this.backup.parent.position;
       }
-      if (el.style.overflow === 'hidden') {
-        el.style.overflow = this.parentOverflow;
+      if (parent.style.maxHeight === '100vh') {
+        parent.style.maxHeight = this.backup.parent.maxHeight;
       }
-      this.parentPosition = null;
-      this.parentOverflow = null;
-      if (el.hasAttribute('style') && !el.attributes.style.value) {
-        el.removeAttribute('style');
+      if (parent.style.overflow === 'hidden') {
+        parent.style.overflow = this.backup.parent.overflow;
+      }
+      this.backup.parent.position = null;
+      this.backup.parent.maxHeight = null;
+      this.backup.parent.overflow = null;
+      if (parent.hasAttribute('style') && !parent.attributes.style.value) {
+        parent.removeAttribute('style');
+      }
+      if (current.style.minHeight === '100vh') {
+        current.style.minHeight = this.backup.current.minHeight;
+      }
+      this.backup.current.minHeight = null;
+      if (current.hasAttribute('style') && !current.attributes.style.value) {
+        current.removeAttribute('style');
       }
     },
   },
