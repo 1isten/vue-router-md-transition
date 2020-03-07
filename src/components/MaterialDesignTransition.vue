@@ -59,7 +59,9 @@ export default {
       this.unsetTemporaryStyle(el, el.parentElement);
     },
     setTemporaryStyle(current, parent) {
-      if (this.disabled || !current || !parent) return;
+      if (this.disabled || !current || !parent) {
+        return;
+      }
       if (this.backup.parent.position === null) {
         this.backup.parent.position = parent.style.position;
       }
@@ -73,6 +75,9 @@ export default {
       parent.style.maxHeight = '100vh';
       parent.style.overflow = 'hidden';
       if (current.clientHeight < parent.clientHeight) {
+        if (current.tagName.toLowerCase() === 'header') {
+          return;
+        }
         if (this.backup.current.minHeight === null) {
           this.backup.current.minHeight = current.style.minHeight;
         }
@@ -80,7 +85,9 @@ export default {
       }
     },
     unsetTemporaryStyle(current, parent) {
-      if (this.disabled || !current || !parent) return;
+      if (this.disabled || !current || !parent) {
+        return;
+      }
       if (parent.style.position === 'relative') {
         parent.style.position = this.backup.parent.position;
       }
