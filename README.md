@@ -1,6 +1,6 @@
 # vue-router-md-transition [![Version](https://img.shields.io/npm/v/vue-router-md-transition)](https://www.npmjs.com/package/vue-router-md-transition)
 
-The `MaterialDesignTransition.vue` SFC(Single File Component) wraps Vue's built-in `<transition>` component with additional CSS styles to achieve [Material Design](https://material.io/design/navigation/navigation-transitions.html#hierarchical-transitions) transition effect.
+The [MaterialDesignTransition.vue](https://github.com/1isten/vue-router-md-transition/blob/master/src/components/MaterialDesignTransition.vue) SFC(Single File Component) wraps Vue's built-in `<transition>` component with additional CSS styles to achieve [Material Design](https://material.io/design/navigation/navigation-transitions.html#hierarchical-transitions) transition effect.
 
 ### Demo
 
@@ -26,7 +26,7 @@ Include the UMD build after `vue` and `vue-router`, the component will be regist
 <script src="/path/to/vue-router-md-transition.umd.min.js"></script>
 ```
 
-📦 This package is available on [unpkg](https://unpkg.com/vue-router-md-transition) and [jsdelivr](https://cdn.jsdelivr.net/npm/vue-router-md-transition).
+📦This package is available on [unpkg](https://unpkg.com/vue-router-md-transition) and [jsdelivr](https://cdn.jsdelivr.net/npm/vue-router-md-transition).
 
 ##### ES module
 
@@ -222,4 +222,4 @@ In fact, with `.md-auto-width` applied, you can not only use this package for Vu
 </md-transition>
 ```
 
-If you want more customizations, you can simply take the `src/components/MaterialDesignTransition.vue` file, tweak it and use it just as any normal Vue SFC the way you like. Or you can submit a pull request to help me make it better.
+If you want more customizations, simply take the `src/components/MaterialDesignTransition.vue`, tweak it and use it just as any normal Vue SFC the way you like. Or you can submit a pull request to help me make it better.

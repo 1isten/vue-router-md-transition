@@ -31,66 +31,53 @@ export default {
   },
   data: () => ({
     parentPosition: null,
-    parentMaxHeight: null,
     parentOverflow: null,
   }),
   methods: {
     beforeLeave(el) {
       if (this.disabled || !el) return;
       const parent = el.parentElement;
-      if (parent) this.setParentElementPosition(parent);
+      if (parent) this.setParentElementStyle(parent);
     },
     afterEnter(el) {
       if (this.disabled || !el) return;
       const parent = el.parentElement;
-      if (parent) this.resetParentElementPosition(parent);
+      if (parent) this.unsetParentElementStyle(parent);
     },
     leaveCancelled(el) {
       if (this.disabled || !el) return;
       const parent = el.parentElement;
-      if (parent) this.resetParentElementPosition(parent);
+      if (parent) this.unsetParentElementStyle(parent);
     },
     enterCancelled(el) {
       if (this.disabled || !el) return;
       const parent = el.parentElement;
-      if (parent) this.resetParentElementPosition(parent);
+      if (parent) this.unsetParentElementStyle(parent);
     },
-    setParentElementPosition(el) {
+    setParentElementStyle(el) {
       if (this.disabled || !el) return;
-      // backup parent element's styles
       if (this.parentPosition === null) {
         this.parentPosition = el.style.position;
-      }
-      if (this.parentMaxHeight === null) {
-        this.parentMaxHeight = el.style.maxHeight;
       }
       if (this.parentOverflow === null) {
         this.parentOverflow = el.style.overflow;
       }
-      // temporarily adjust parent element's style
       el.style.position = 'relative';
-      el.style.maxHeight = '100vh';
       el.style.overflow = 'hidden';
     },
-    resetParentElementPosition(el) {
+    unsetParentElementStyle(el) {
       if (this.disabled || !el) return;
-      // revert parent element's style
       if (el.style.position === 'relative') {
         el.style.position = this.parentPosition;
-      }
-      if (el.style.maxHeight === '100vh') {
-        el.style.maxHeight = this.parentMaxHeight;
       }
       if (el.style.overflow === 'hidden') {
         el.style.overflow = this.parentOverflow;
       }
-      // clear up
-      this.parentPosition = null;
-      this.parentMaxHeight = null;
-      this.parentOverflow = null;
       if (el.hasAttribute('style') && !el.attributes.style.value) {
         el.removeAttribute('style');
       }
+      this.parentPosition = null;
+      this.parentOverflow = null;
     },
   },
 };
