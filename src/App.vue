@@ -1,58 +1,32 @@
 <template>
-  <v-app>
-    <v-navigation-drawer app v-model="drawer">
-      <v-list nav dense>
-        <v-list-item :to="{ name: 'home' }" exact>
-          <v-list-item-action>
-            <v-icon>mdi-home</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>Home</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item :to="{ name: 'about' }" exact>
-          <v-list-item-action>
-            <v-icon>mdi-information</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>About</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
+  <v-app dark>
+    <nav-drawer />
 
-    <md-transition :reverse="routeBack">
+    <md-transition class="md-dark" :reverse="routeBack" :disabled="transitionDisabled">
       <keep-alive>
-        <router-view/>
+        <router-view />
       </keep-alive>
     </md-transition>
   </v-app>
 </template>
 
 <script>
-// @ is an alias to /src
-import MaterialDesignTransition from '@/components/MaterialDesignTransition.vue';
+import MaterialDesignTransition from 'vue-router-md-transition';
+import NavDrawer from '@/components/NavDrawer.vue';
 
 export default {
   name: 'App',
   components: {
+    'nav-drawer': NavDrawer,
     'md-transition': MaterialDesignTransition,
-  },
-  computed: {
-    drawer: {
-      get() {
-        return this.$store.state.drawer;
-      },
-      set(val) {
-        this.$store.dispatch('toggleDrawer', { val });
-      },
-    },
   },
   data: () => ({
     routeBack: false,
+    transitionDisabled: false,
   }),
   watch: {
     $route(to, from) {
+      this.transitionDisabled = !from.name;
       if (to.path === '/') {
         this.routeBack = true;
         return;
@@ -71,7 +45,7 @@ export default {
 
 <style>
 :root {
+  background-color: #121212;
   --md-transition-duration: 400ms;
-  --md-fading-background: #f5f5f5;
 }
 </style>
