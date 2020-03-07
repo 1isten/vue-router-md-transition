@@ -132,17 +132,33 @@ The fading effect is achieved by adding an additional layer between the current 
 
 ##### Change fading layer background
 
-Use CSS variable to override the default #fafafa) background:
+To get the best result, the the fading layer's background should match the background of the element's container.
+
+Use CSS variable to override the default background:
 
 ```html
 <style>
 :root {
+  /* set a color to match container's background, default is #fafafa */
   --md-fading-background: white;
 }
 </style>
 ```
 
-The get the best result, the value should match the background color of the element's container background.
+If your app is in dark mode you may want the fading background to be dark:
+
+```html
+<md-transition class="md-dark">
+  <router-view/>
+</md-transition>
+
+<style>
+:root {
+  /* set a color to match container's background, default is #121212 */
+  --md-fading-background-dark: black;
+}
+</style>
+```
 
 ##### Change fading layer offset top
 
@@ -159,7 +175,7 @@ By default, during transition there will be an offset top for the fading layer i
 </style>
 ```
 
-Furthermore, you can use `.md-no-app-bar` to quickly disable the offset top if your page is not using the app bar:
+You can use `.md-no-app-bar` to quickly disable the offset top if your page is not using the app bar:
 
 ```html
 <md-transition class="md-no-app-bar">
@@ -167,7 +183,7 @@ Furthermore, you can use `.md-no-app-bar` to quickly disable the offset top if y
 </md-transition>
 ```
 
-Or use `.md-app-bar-extended` to set it to `128px` if you're using an [Extended top app bar](https://material.io/components/app-bars-top/#specs):
+Or use `.md-app-bar-extended` to set it to `128px` if you're using an [extended top app bar](https://material.io/components/app-bars-top/#specs):
 
 ```html
 <md-transition class="md-app-bar-extended">
@@ -177,7 +193,7 @@ Or use `.md-app-bar-extended` to set it to `128px` if you're using an [Extended 
 
 ##### Beyond `<router-view/>`
 
-By default, the `<md-transition></md-transition>` will treat the element inside it as a full width (block-level) element. This should be fine under most circumstances as the `<router-view/>` is usually a full width element. But you can add the `.md-auto-width` class to disable this feature in case you don't use a full width router view:
+By default, the `<md-transition></md-transition>` will treat the element inside as a full width (block-level) element. This should be fine under most circumstances as the `<router-view/>` is usually a full width element. But you can add the `.md-auto-width` class to disable this feature in case you don't use a full width router view:
 
 ```html
 <md-transition class="md-auto-width">
@@ -194,4 +210,4 @@ In fact, with `.md-auto-width` applied, you can not only use this package for Vu
 </md-transition>
 ```
 
-If you want more customizations, you can simply take the `src/components/MaterialDesignTransition.vue` file and use it just as any normal Vue SFC and tweak it as you like. Or you can submit a pull request to help me make it better.
+If you want more customizations, you can simply take the `src/components/MaterialDesignTransition.vue` file, tweak it and use it just as any normal Vue SFC the way you like. Or you can submit a pull request to help me make it better.

@@ -24,22 +24,27 @@ export default {
   }),
   methods: {
     beforeLeave(el) {
+      if (!el) return;
       const parent = el.parentElement;
       if (parent) this.setParentElementPosition(parent);
     },
     afterEnter(el) {
+      if (!el) return;
       const parent = el.parentElement;
       if (parent) this.resetParentElementPosition(parent);
     },
     leaveCancelled(el) {
+      if (!el) return;
       const parent = el.parentElement;
       if (parent) this.resetParentElementPosition(parent);
     },
     enterCancelled(el) {
+      if (!el) return;
       const parent = el.parentElement;
       if (parent) this.resetParentElementPosition(parent);
     },
     setParentElementPosition(el) {
+      if (!el) return;
       // backup parent element's position
       if (this.parentPosition === null) {
         this.parentPosition = el.style.position;
@@ -48,6 +53,7 @@ export default {
       el.style.position = 'relative';
     },
     resetParentElementPosition(el) {
+      if (!el) return;
       // revert parent element's position
       el.style.position = this.parentPosition;
       // clear up
@@ -60,63 +66,82 @@ export default {
 </script>
 
 <style scoped>
-/* nav push */
-.md-forward-leave-active, .md-forward-leave-to { /* from */
+/* nav push (from) */
+.md-forward-leave-active, .md-forward-leave-to {
   /* detach current view from the normal document flow */
   position: absolute;
   /* retain full width in non-static positioned parent element */
   left: 0;
   right: 0;
   /* place current view behind next view */
-  z-index: 0;
+  z-index: 0 !important;
   /* remove current view ahead of time to prevent flash back issue */
   animation: none calc(var(--md-transition-duration, 250ms) - 60ms);
 }
-.md-forward-enter-active, .md-forward-enter-to { /* to */
+/* nav push (to) */
+.md-forward-enter-active, .md-forward-enter-to {
   position: relative;
   /* place next view in front of current view */
-  z-index: 1;
+  z-index: 1 !important;
   /* slide in next view */
   animation: slideIn var(--md-transition-duration, 250ms);
 }
 
-/* nav back */
-.md-backward-leave-active, .md-backward-leave-to { /* from */
+/* nav back (from) */
+.md-backward-leave-active, .md-backward-leave-to {
   /* detach current view from the normal document flow */
   position: absolute;
   /* retain full width in non-static positioned parent element */
   left: 0;
   right: 0;
   /* place current view in front of previous view */
-  z-index: 1;
+  z-index: 1 !important;
   /* slide out current view ahead of time to prevent flash back issue */
   animation: slideOut calc(var(--md-transition-duration, 250ms) - 60ms);
 }
-.md-backward-enter-active, .md-backward-enter-to { /* to */
+/* nav back (to) */
+.md-backward-enter-active, .md-backward-enter-to {
   position: relative;
   /* place previous view behind current view */
-  z-index: 0;
+  z-index: 0 !important;
   /* remove previous view after animation */
   animation: none var(--md-transition-duration, 250ms);
 }
 
 /* additional middle layers for fading effect */
-.md-forward-leave-active::after, .md-forward-leave-to::after, /* the layer after current view during nav push */
-.md-backward-enter-active::after, .md-backward-enter-to::after { /* the layer after previous view during nav back */
+.md-forward-leave-active::after, .md-forward-leave-to::after,
+.md-backward-enter-active::after, .md-backward-enter-to::after {
   content: "";
   position: absolute;
   top: var(--md-app-bar-height, 56px);
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 999;
+  z-index: 999 !important;
   background: var(--md-fading-background, #fafafa);
 }
+/* the layer after current view during nav push */
 .md-forward-leave-active::after, .md-forward-leave-to::after {
   animation: fadeIn var(--md-transition-duration, 250ms);
 }
+/* the layer after previous view during nav back */
 .md-backward-enter-active::after, .md-backward-enter-to::after {
   animation: fadeOut var(--md-transition-duration, 250ms);
+}
+
+@media screen and (min-width: 960px) {
+  .md-forward-enter-active, .md-forward-enter-to {
+    animation-name: slideInBig;
+  }
+
+  .md-backward-leave-active, .md-backward-leave-to {
+    animation-name: slideOutBig;
+  }
+
+  .md-forward-leave-active::after, .md-forward-leave-to::after,
+  .md-backward-enter-active::after, .md-backward-enter-to::after {
+    top: var(--md-app-bar-height-large, 64px);
+  }
 }
 
 @keyframes slideIn {
@@ -177,21 +202,6 @@ export default {
   }
 }
 
-@media screen and (min-width: 960px) {
-  .md-forward-enter-active, .md-forward-enter-to {
-    animation-name: slideInBig;
-  }
-
-  .md-backward-leave-active, .md-backward-leave-to {
-    animation-name: slideOutBig;
-  }
-
-  .md-forward-leave-active::after, .md-forward-leave-to::after,
-  .md-backward-enter-active::after, .md-backward-enter-to::after {
-    top: var(--md-app-bar-height-large, 64px);
-  }
-}
-
 /* set fading layer offset top to 128px when using an extended material design app bar */
 .md-app-bar-extended.md-forward-leave-active::after, .md-app-bar-extended.md-forward-leave-to::after,
 .md-app-bar-extended.md-backward-enter-active::after, .md-app-bar-extended.md-backward-enter-to::after {
@@ -209,5 +219,11 @@ export default {
 .md-auto-width.md-backward-leave-active, .md-auto-width.md-backward-leave-to {
   left: unset;
   right: unset;
+}
+
+/* dark theme */
+.md-dark.md-forward-leave-active::after, .md-dark.md-forward-leave-to::after,
+.md-dark.md-backward-enter-active::after, .md-dark.md-backward-enter-to::after {
+  background: var(--md-fading-background-dark, #121212);
 }
 </style>
