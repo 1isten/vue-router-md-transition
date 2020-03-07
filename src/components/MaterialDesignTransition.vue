@@ -1,6 +1,6 @@
 <template>
   <transition
-    :name="reverse ? 'md-backward' : 'md-forward'"
+    :name="name"
     @before-leave="beforeLeave"
     @after-enter="afterEnter"
     @enter-cancelled="enterCancelled"
@@ -14,49 +14,80 @@
 export default {
   name: 'MaterialDesignTransition',
   props: {
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
     reverse: {
       type: Boolean,
       default: false,
     },
   },
+  computed: {
+    name() {
+      if (this.disabled) return '';
+      return this.reverse ? 'md-backward' : 'md-forward';
+    },
+  },
   data: () => ({
     parentPosition: null,
+    parentMaxHeight: null,
+    parentOverflow: null,
   }),
   methods: {
     beforeLeave(el) {
-      if (!el) return;
+      if (this.disabled || !el) return;
       const parent = el.parentElement;
       if (parent) this.setParentElementPosition(parent);
     },
     afterEnter(el) {
-      if (!el) return;
+      if (this.disabled || !el) return;
       const parent = el.parentElement;
       if (parent) this.resetParentElementPosition(parent);
     },
     leaveCancelled(el) {
-      if (!el) return;
+      if (this.disabled || !el) return;
       const parent = el.parentElement;
       if (parent) this.resetParentElementPosition(parent);
     },
     enterCancelled(el) {
-      if (!el) return;
+      if (this.disabled || !el) return;
       const parent = el.parentElement;
       if (parent) this.resetParentElementPosition(parent);
     },
     setParentElementPosition(el) {
-      if (!el) return;
-      // backup parent element's position
+      if (this.disabled || !el) return;
+      // backup parent element's styles
       if (this.parentPosition === null) {
         this.parentPosition = el.style.position;
       }
-      // set parent element's position to relative
+      if (this.parentMaxHeight === null) {
+        this.parentMaxHeight = el.style.maxHeight;
+      }
+      if (this.parentOverflow === null) {
+        this.parentOverflow = el.style.overflow;
+      }
+      // temporarily adjust parent element's style
       el.style.position = 'relative';
+      el.style.maxHeight = '100vh';
+      el.style.overflow = 'hidden';
     },
     resetParentElementPosition(el) {
-      if (!el) return;
-      // revert parent element's position
-      el.style.position = this.parentPosition;
+      if (this.disabled || !el) return;
+      // revert parent element's style
+      if (el.style.position === 'relative') {
+        el.style.position = this.parentPosition;
+      }
+      if (el.style.maxHeight === '100vh') {
+        el.style.maxHeight = this.parentMaxHeight;
+      }
+      if (el.style.overflow === 'hidden') {
+        el.style.overflow = this.parentOverflow;
+      }
       // clear up
+      this.parentPosition = null;
+      this.parentMaxHeight = null;
+      this.parentOverflow = null;
       if (el.hasAttribute('style') && !el.attributes.style.value) {
         el.removeAttribute('style');
       }

@@ -10,7 +10,7 @@ The `MaterialDesignTransition.vue` SFC(Single File Component) wraps Vue's built-
 
 ```html
 <md-transition>
-  <router-view/>
+  <router-view></router-view>
 </md-transition>
 ```
 
@@ -62,15 +62,23 @@ export default {
 
 ### Customize:
 
-##### Revert the transition direction
+##### Transition direction
 
 ```html
 <md-transition :reverse="true">
-  <router-view/>
+  <router-view></router-view>
 </md-transition>
 ```
 
-You can dynamically apply the direction by watching router's behavior. For example:
+##### Disable transition
+
+```html
+<md-transition :disabled="true">
+  <router-view></router-view>
+</md-transition>
+```
+
+You can dynamically control the transition by watching router's behavior. For example:
 
 ```html
 <template>
@@ -79,8 +87,8 @@ You can dynamically apply the direction by watching router's behavior. For examp
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
     </div>
-    <md-transition :reverse="routeBack">
-      <router-view/>
+    <md-transition :reverse="routeBack" :disabled="transitionDisabled">
+      <router-view></router-view>
     </md-transition>
   </div>
 </template>
@@ -94,9 +102,13 @@ export default {
   },
   data: () => ({
     routeBack: false,
+    transitionDisabled: false,
   }),
   watch: {
     $route(to, from) {
+      // disabled for browser refresh
+      this.transitionDisabled = !from.name;
+      // dynamically set direction
       if (to.path === '/') {
         this.routeBack = true;
         return;
@@ -114,7 +126,7 @@ export default {
 </script>
 ```
 
-##### Change the transition speed
+##### Transition speed
 
 Use CSS variable to override the default (250ms) animation duration:
 
@@ -149,7 +161,7 @@ If your app is in dark mode you may want the fading background to be dark:
 
 ```html
 <md-transition class="md-dark">
-  <router-view/>
+  <router-view></router-view>
 </md-transition>
 
 <style>
@@ -179,7 +191,7 @@ You can use `.md-no-app-bar` to quickly disable the offset top if your page is n
 
 ```html
 <md-transition class="md-no-app-bar">
-  <router-view/>
+  <router-view></router-view>
 </md-transition>
 ```
 
@@ -187,17 +199,17 @@ Or use `.md-app-bar-extended` to set it to `128px` if you're using an [extended 
 
 ```html
 <md-transition class="md-app-bar-extended">
-  <router-view/>
+  <router-view></router-view>
 </md-transition>
 ```
 
-##### Beyond `<router-view/>`
+##### Beyond Vue Router
 
-By default, the `<md-transition></md-transition>` will treat the element inside as a full width (block-level) element. This should be fine under most circumstances as the `<router-view/>` is usually a full width element. But you can add the `.md-auto-width` class to disable this feature in case you don't use a full width router view:
+By default, the `<md-transition></md-transition>` will treat the element inside as a full width (block-level) element. This should be fine under most circumstances as the `<router-view></router-view>` is usually a full width element. But you can add the `.md-auto-width` class to disable this feature in case you don't use a full width router view:
 
 ```html
 <md-transition class="md-auto-width">
-  <router-view/>
+  <router-view></router-view>
 </md-transition>
 ```
 

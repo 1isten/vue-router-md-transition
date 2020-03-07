@@ -1,6 +1,6 @@
 {
   "name": "vue-router-md-transition",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "Material Design navigation transition for Vue Router",
   "keywords": [
     "material design",
@@ -29,13 +29,13 @@
     "lint": "vue-cli-service lint"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^4.2.2",
-    "@vue/cli-plugin-eslint": "^4.2.2",
-    "@vue/cli-service": "^4.2.2",
+    "@vue/cli-plugin-babel": "^4.2.3",
+    "@vue/cli-plugin-eslint": "^4.2.3",
+    "@vue/cli-service": "^4.2.3",
     "babel-eslint": "^10.1.0",
-    "core-js": "^3.6.0",
+    "core-js": "^3.6.4",
     "eslint": "^6.8.0",
-    "eslint-plugin-vue": "^6.2.0",
+    "eslint-plugin-vue": "^6.2.1",
     "vue": "^2.6.11",
     "vue-template-compiler": "^2.6.11"
   },
