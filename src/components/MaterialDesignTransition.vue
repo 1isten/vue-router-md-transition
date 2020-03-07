@@ -73,11 +73,11 @@ export default {
       if (el.style.overflow === 'hidden') {
         el.style.overflow = this.parentOverflow;
       }
+      this.parentPosition = null;
+      this.parentOverflow = null;
       if (el.hasAttribute('style') && !el.attributes.style.value) {
         el.removeAttribute('style');
       }
-      this.parentPosition = null;
-      this.parentOverflow = null;
     },
   },
 };
