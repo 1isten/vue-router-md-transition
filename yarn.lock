@@ -8334,10 +8334,10 @@ vue-loader@^15.8.3:
     vue-hot-reload-api "^2.3.0"
     vue-style-loader "^4.1.0"
 
-vue-router-md-transition@^1.2.11:
-  version "1.2.11"
-  resolved "https://registry.npmjs.org/vue-router-md-transition/-/vue-router-md-transition-1.2.11.tgz#aa7258ad81bb344e78c52a49ce0fec22316a55f0"
-  integrity sha512-Yqy7tIb37Dtr5Q9bCjKYoK29PC8ha1lHUyLdg2AaZ6GOCXIua5v05kavExw9aO9NvEKhsSjWMFXEwU94zvEJPA==
+vue-router-md-transition@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.npmjs.org/vue-router-md-transition/-/vue-router-md-transition-1.3.0.tgz#653a5c2086597f919a7fc9c8bc9a5438b789549f"
+  integrity sha512-hMpJVSp+qzFU/sTPBTfnSifej6iLF0leIE8Llquj5UlJzZfFsXS2IlAPOddz074db1c5sHJeX8OUTADyGSKlpQ==
 
 vue-router@^3.1.6:
   version "3.1.6"
