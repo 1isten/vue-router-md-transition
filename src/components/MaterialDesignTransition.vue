@@ -36,9 +36,6 @@ export default {
   },
   data: () => ({
     backup: {
-      current: {
-        minHeight: null,
-      },
       parent: {
         position: null,
         minHeight: null,
@@ -50,22 +47,22 @@ export default {
   methods: {
     beforeLeave(el) {
       if (this.disabled || !el) return;
-      this.setTemporaryStyle(el, el.parentElement);
+      this.setTemporaryStyle(el.parentElement);
     },
     afterEnter(el) {
       if (this.disabled || !el) return;
-      this.unsetTemporaryStyle(el, el.parentElement);
+      this.unsetTemporaryStyle(el.parentElement);
     },
     leaveCancelled(el) {
       if (this.disabled || !el) return;
-      this.unsetTemporaryStyle(el, el.parentElement);
+      this.unsetTemporaryStyle(el.parentElement);
     },
     enterCancelled(el) {
       if (this.disabled || !el) return;
-      this.unsetTemporaryStyle(el, el.parentElement);
+      this.unsetTemporaryStyle(el.parentElement);
     },
-    setTemporaryStyle(current, parent) {
-      if (this.disabled || !current || !parent) {
+    setTemporaryStyle(parent) {
+      if (this.disabled || !parent) {
         return;
       }
       if (this.backup.parent.position === null) {
@@ -84,18 +81,9 @@ export default {
       parent.style.minHeight = '100vh';
       parent.style.maxHeight = '100vh';
       parent.style.overflow = 'hidden';
-      if (current.clientHeight < parent.clientHeight) {
-        if (current.tagName.toLowerCase() === 'header') {
-          return;
-        }
-        if (this.backup.current.minHeight === null) {
-          this.backup.current.minHeight = current.style.minHeight;
-        }
-        current.style.minHeight = '100vh';
-      }
     },
-    unsetTemporaryStyle(current, parent) {
-      if (this.disabled || !current || !parent) {
+    unsetTemporaryStyle(parent) {
+      if (this.disabled || !parent) {
         return;
       }
       if (parent.style.position === 'relative') {
@@ -116,13 +104,6 @@ export default {
       this.backup.parent.overflow = null;
       if (parent.hasAttribute('style') && !parent.attributes.style.value) {
         parent.removeAttribute('style');
-      }
-      if (current.style.minHeight === '100vh') {
-        current.style.minHeight = this.backup.current.minHeight;
-      }
-      this.backup.current.minHeight = null;
-      if (current.hasAttribute('style') && !current.attributes.style.value) {
-        current.removeAttribute('style');
       }
     },
   },
