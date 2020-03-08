@@ -113,6 +113,8 @@ export default {
 .md-forward-leave-active, .md-forward-leave-to {
   /* detach current view from the normal document flow */
   position: absolute;
+  /* prevent height collapse or expansion */
+  min-height: 100%;
   /* retain full width in non-static positioned parent element */
   left: 0;
   right: 0;
@@ -134,6 +136,8 @@ export default {
 .md-backward-leave-active, .md-backward-leave-to {
   /* detach current view from the normal document flow */
   position: absolute;
+  /* prevent height collapse or expansion */
+  min-height: 100%;
   /* retain full width in non-static positioned parent element */
   left: 0;
   right: 0;
