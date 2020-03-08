@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer v-model="drawer" app tag="aside">
+  <v-navigation-drawer v-model="drawer" app dark tag="aside">
     <v-list>
       <v-list-item :to="{ name: 'home' }" exact>
         <v-list-item-action>
