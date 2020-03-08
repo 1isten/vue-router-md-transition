@@ -4,7 +4,8 @@ The [MaterialDesignTransition.vue](https://github.com/1isten/vue-router-md-trans
 
 ### Demo
 
-[A Vuetify SPA](https://1isten.github.io/vue-router-md-transition)
+- [A Vuetify SPA](https://1isten.github.io/vue-router-md-transition)
+- [Codepen (CDN)](https://codepen.io/1isten/pen/mdJqQJm)
 
 ### Usage
 
