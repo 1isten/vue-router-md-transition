@@ -1,6 +1,7 @@
 <template>
   <transition
     :name="name"
+    :mode="mode"
     @before-leave="beforeLeave"
     @after-enter="afterEnter"
     @enter-cancelled="enterCancelled"
@@ -27,6 +28,10 @@ export default {
     name() {
       if (this.disabled) return '';
       return this.reverse ? 'md-backward' : 'md-forward';
+    },
+    mode() {
+      if (this.disabled) return 'out-in';
+      return '';
     },
   },
   data: () => ({
