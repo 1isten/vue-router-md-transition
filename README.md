@@ -26,7 +26,7 @@ Include the UMD build after `vue` and `vue-router`, the component will be regist
 <script src="/path/to/vue-router-md-transition.umd.min.js"></script>
 ```
 
-📦 This package is available on [bundle.run](https://bundle.run/vue-router-md-transition), [unpkg](https://unpkg.com/vue-router-md-transition) and [jsdelivr](https://cdn.jsdelivr.net/npm/vue-router-md-transition).
+📦 This package is available on [unpkg](https://unpkg.com/vue-router-md-transition), [jsdelivr](https://cdn.jsdelivr.net/npm/vue-router-md-transition) and [bundle.run](https://bundle.run/vue-router-md-transition).
 
 ##### ES module
 
