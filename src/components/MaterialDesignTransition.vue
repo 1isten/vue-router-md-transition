@@ -268,6 +268,12 @@ export default {
   right: unset;
 }
 
+/* unset min-height 100% for absolute positioned view */
+.md-auto-height.md-forward-leave-active, .md-auto-height.md-forward-leave-to,
+.md-auto-height.md-backward-leave-active, .md-auto-height.md-backward-leave-to {
+  min-height: unset;
+}
+
 /* dark theme */
 .md-dark.md-forward-leave-active::after, .md-dark.md-forward-leave-to::after,
 .md-dark.md-backward-enter-active::after, .md-dark.md-backward-enter-to::after {
