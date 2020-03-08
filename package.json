@@ -28,7 +28,8 @@
     "build:umd": "vue-cli-service build --no-clean --target lib --formats umd,umd-min src/main.js",
     "postbuild": "rm dist/demo.html",
     "lint": "vue-cli-service lint",
-    "prepublish": "npm run build"
+    "prepublish": "npm run build",
+    "postpublish": "git push"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.2.3",
