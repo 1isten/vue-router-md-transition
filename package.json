@@ -22,6 +22,7 @@
   "author": "1isten <sten.li@foxmail.com>",
   "license": "MIT",
   "scripts": {
+    "prebuild": "rm -rf dist",
     "build": "npm run build:common && npm run build:umd",
     "build:common": "vue-cli-service build --no-clean --target lib --formats commonjs src/components/MaterialDesignTransition.vue",
     "build:umd": "vue-cli-service build --no-clean --target lib --formats umd,umd-min src/main.js",
