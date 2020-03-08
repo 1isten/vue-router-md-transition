@@ -205,18 +205,18 @@ Or use `.md-app-bar-extended` to set it to `128px` if you're using an [extended 
 
 ##### Beyond Vue Router
 
-By default, the `<md-transition></md-transition>` will treat the element inside as a full width (block-level) element. This should be fine under most circumstances as the `<router-view></router-view>` is usually a full width element. But you can add the `.md-auto-width` class to disable this feature in case you don't use a full width router view:
+By default, the `<md-transition></md-transition>` will treat its direct child as a full width/height (block-level) element. This should be fine under most circumstances. But you can add `.md-auto-width`/`.md-auto-height` classes to disable this feature in case you don't want a full width/height router view:
 
 ```html
-<md-transition class="md-auto-width">
+<md-transition class="md-auto-width md-auto-height">
   <router-view></router-view>
 </md-transition>
 ```
 
-In fact, with `.md-auto-width` applied, you can not only use this package for Vue Router, but also any arbitrary transitions supported by Vue:
+In fact, with these classes applied, you can not only use this package for Vue Router, but also any arbitrary transitions supported by Vue:
 
 ```html
-<md-transition class="md-auto-width">
+<md-transition class="md-auto-width md-auto-height">
   <div key="foo" v-if="show">Foo</div>
   <div key="bar" v-else>Bar</div>
 </md-transition>
