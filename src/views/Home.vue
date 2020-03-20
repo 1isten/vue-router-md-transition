@@ -5,7 +5,7 @@
       <v-toolbar-title>Home</v-toolbar-title>
       <v-spacer />
       <v-btn icon href="https://github.com/1isten/vue-router-md-transition/tree/demo" target="_blank">
-        <v-icon>mdi-github-circle</v-icon>
+        <v-icon>mdi-github</v-icon>
       </v-btn>
     </v-app-bar>
 
