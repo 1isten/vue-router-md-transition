@@ -6,12 +6,14 @@
 
     @before-enter="beforeEnter"
     @before-leave="beforeLeave"
-    :leave-active-class="disabled ? '' : `md-transition-${this.direction}-a`"
-    :enter-active-class="disabled ? '' : `md-transition-${this.direction}-b`"
-    @after-enter="afterEnter"
-    @after-leave="afterLeave"
+    @leave="leave"
+    :leave-to-class="''"
+    @enter="enter"
+    :enter-to-class="''"
     @enter-cancelled="enterCancelled"
     @leave-cancelled="leaveCancelled"
+    @after-enter="afterEnter"
+    @after-leave="afterLeave"
   >
     <slot></slot>
   </transition>
@@ -39,8 +41,8 @@ export default {
     },
   },
   data: () => ({
-    a: null, // from
-    b: null, // to
+    a: null, // leave from
+    b: null, // enter to
 
     aStyleVars: '',
     bStyleVars: '',
@@ -51,6 +53,13 @@ export default {
     },
     direction() {
       return this.reverse ? 'backward' : 'forward';
+    },
+
+    leaveActiveClass() {
+      return 'md-transition-leave-active' + (this.disabled ? '' : ` md-transition-${this.direction}-a`);
+    },
+    enterActiveClass() {
+      return 'md-transition-enter-active' + (this.disabled ? '' : ` md-transition-${this.direction}-b`);
     },
   },
   methods: {
@@ -81,73 +90,67 @@ export default {
       a.style.cssText += this.aStyleVars;
     },
 
-    // leave(a, done) {
-    //   if (this.disabled) return setTimeout(done);
+    leave(a, done) {
+      if (this.disabled) return setTimeout(done);
 
-    //   if (a.classList.contains(`md-transition-${this.direction}-b`)) {
-    //     a.classList.remove(`md-transition-${this.direction}-b`);
-    //   }
-    //   this.$nextTick(() => a.classList.add(`md-transition-${this.direction}-a`));
+      if (a.classList.contains(`md-transition-${this.direction}-b`)) {
+        a.classList.remove(`md-transition-${this.direction}-b`);
+      }
+      this.$nextTick(() => a.classList.add(`md-transition-${this.direction}-a`));
 
-    //   if (this.duration0) {
-    //     done();
-    //   } else {
-    //     a.addEventListener('animationend', done, { once: true });
-    //   }
-    // },
-    // enter(b, done) {
-    //   if (this.disabled) return setTimeout(done);
-
-    //   if (b.classList.contains(`md-transition-${this.direction}-a`)) {
-    //     b.classList.remove(`md-transition-${this.direction}-a`);
-    //   }
-    //   this.$nextTick(() => b.classList.add(`md-transition-${this.direction}-b`));
-
-    //   if (this.duration0) {
-    //     done();
-    //   } else {
-    //     b.addEventListener('animationend', done, { once: true });
-    //   }
-    // },
-
-    afterEnter(b) {
-      if (this.disabled) return;
-
-      // b.classList.remove(`md-transition-${this.direction}-b`);
-      b.setAttribute('style', b.style.cssText.replace(this.bStyleVars, '').trim());
-      if (!b.getAttribute('style')) {
-        b.removeAttribute('style');
+      if (this.duration0) {
+        done();
+      } else {
+        a.addEventListener('animationend', done, { once: true });
       }
     },
-    afterLeave(a) {
-      if (this.disabled) return;
+    enter(b, done) {
+      if (this.disabled) return setTimeout(done);
 
-      // a.classList.remove(`md-transition-${this.direction}-a`);
-      a.setAttribute('style', a.style.cssText.replace(this.aStyleVars, '').trim());
-      if (!a.getAttribute('style')) {
-        a.removeAttribute('style');
+      if (b.classList.contains(`md-transition-${this.direction}-a`)) {
+        b.classList.remove(`md-transition-${this.direction}-a`);
+      }
+      this.$nextTick(() => b.classList.add(`md-transition-${this.direction}-b`));
+
+      if (this.duration0) {
+        done();
+      } else {
+        b.addEventListener('animationend', done, { once: true });
       }
     },
 
     enterCancelled(b) {
       if (this.disabled) return;
 
-      // b.classList.remove(`md-transition-${this.direction}-b`);
+      clearTimeout(window.__MD_TRANSITION_SCROLL_TIMEOUT__);
+
+      b.classList.remove(`md-transition-${this.direction}-b`);
       b.setAttribute('style', b.style.cssText.replace(this.bStyleVars, '').trim());
-      if (!b.getAttribute('style')) {
-        b.removeAttribute('style');
-      }
-      clearTimeout(window.__MD_TRANSITION_SCROLL_TIMEOUT__); // if any
+      if (!b.getAttribute('style')) b.removeAttribute('style');
     },
     leaveCancelled(a) {
       if (this.disabled) return;
 
-      // a.classList.remove(`md-transition-${this.direction}-a`);
+      clearTimeout(window.__MD_TRANSITION_SCROLL_TIMEOUT__);
+
+      a.classList.remove(`md-transition-${this.direction}-a`);
       a.setAttribute('style', a.style.cssText.replace(this.aStyleVars, '').trim());
-      if (!a.getAttribute('style')) {
-        a.removeAttribute('style');
-      }
-      clearTimeout(window.__MD_TRANSITION_SCROLL_TIMEOUT__); // if any
+      if (!a.getAttribute('style')) a.removeAttribute('style');
+    },
+
+    afterEnter(b) {
+      if (this.disabled) return;
+
+      b.classList.remove(`md-transition-${this.direction}-b`);
+      b.setAttribute('style', b.style.cssText.replace(this.bStyleVars, '').trim());
+      if (!b.getAttribute('style')) b.removeAttribute('style');
+    },
+    afterLeave(a) {
+      if (this.disabled) return;
+
+      a.classList.remove(`md-transition-${this.direction}-a`);
+      a.setAttribute('style', a.style.cssText.replace(this.aStyleVars, '').trim());
+      if (!a.getAttribute('style')) a.removeAttribute('style');
     },
   },
 };
@@ -162,7 +165,7 @@ export default {
     opacity: 0;
   }
 }
-.md-transition-forward-a {
+.md-transition-leave-active.md-transition-forward-a {
   width: var(--width-a);
   min-height: inherit;
   position: absolute;
@@ -182,14 +185,13 @@ export default {
     opacity: var(--opacity-original, 1);
   }
 }
-.md-transition-forward-b {
+.md-transition-enter-active.md-transition-forward-b {
   position: relative;
   z-index: 1;
   user-select: none;
   animation-name: slideIn;
   animation-duration: var(--duration, 250ms);
   animation-timing-function: ease-out;
-  animation-delay: 60; /* prevent flashback */
 }
 
 @keyframes slideOut {
@@ -202,7 +204,7 @@ export default {
     opacity: 0;
   }
 }
-.md-transition-backward-a {
+.md-transition-leave-active.md-transition-backward-a {
   width: var(--width-a);
   min-height: inherit;
   position: absolute;
@@ -211,7 +213,6 @@ export default {
   animation-name: slideOut;
   animation-duration: var(--duration, 250ms);
   animation-timing-function: ease-out;
-  animation-delay: 60; /* prevent flashback */
 }
 
 @keyframes fadeIn {
@@ -222,7 +223,7 @@ export default {
     opacity: var(--opacity-original, 1);
   }
 }
-.md-transition-backward-b {
+.md-transition-enter-active.md-transition-backward-b {
   position: relative;
   z-index: 0;
   animation-name: fadeIn;
