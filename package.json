@@ -1,7 +1,7 @@
 {
   "name": "vue-router-md-transition",
   "version": "1.3.4",
-  "description": "Material Design navigation transition for Vue Router",
+  "description": "Vue component with material design transition effect",
   "keywords": [
     "material design",
     "transition",
@@ -17,15 +17,15 @@
   "module": "dist/vue-router-md-transition.common.js",
   "unpkg": "dist/vue-router-md-transition.umd.min.js",
   "jsdelivr": "dist/vue-router-md-transition.umd.min.js",
-  "homepage": "https://github.com/1isten/vue-router-md-transition#readme",
+  "homepage": "https://www.npmjs.com/package/vue-router-md-transition",
   "repository": "https://github.com/1isten/vue-router-md-transition.git",
   "author": "1isten <sten.li@foxmail.com>",
   "scripts": {
-    "prebuild": "rm -rf dist",
+    "prebuild": "rimraf dist",
     "build": "npm run build:common && npm run build:umd",
     "build:common": "vue-cli-service build --no-clean --target lib --formats commonjs src/components/MaterialDesignTransition.vue",
     "build:umd": "vue-cli-service build --no-clean --target lib --formats umd,umd-min src/main.js",
-    "postbuild": "rm dist/demo.html",
+    "postbuild": "rimraf dist/demo.html",
     "lint": "vue-cli-service lint",
     "prepublish": "npm run build"
   },
@@ -37,6 +37,7 @@
     "core-js": "^3.6.5",
     "eslint": "^6.8.0",
     "eslint-plugin-vue": "^6.2.2",
+    "rimraf": "^3.0.2",
     "vue": "^2.6.11",
     "vue-template-compiler": "^2.6.11"
   },

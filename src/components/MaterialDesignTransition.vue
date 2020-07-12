@@ -1,10 +1,16 @@
 <template>
   <transition
-    :name="name"
-    :mode="mode"
-    @before-leave="beforeLeave"
+    name="md-transition"
+    :duration="duration"
+
+    @before-enter="beforeEnter"
+    @enter="enter"
     @after-enter="afterEnter"
     @enter-cancelled="enterCancelled"
+
+    @before-leave="beforeLeave"
+    @leave="leave"
+    @after-leave="afterLeave"
     @leave-cancelled="leaveCancelled"
   >
     <slot></slot>
@@ -15,93 +21,134 @@
 export default {
   name: 'MaterialDesignTransition',
   props: {
-    disabled: {
-      type: Boolean,
-      default: false,
+    offsetTop: {
+      type: Number,
+      default: 64,
+    },
+    duration: {
+      type: Number,
+      default: 250,
     },
     reverse: {
       type: Boolean,
       default: false,
     },
-  },
-  computed: {
-    name() {
-      if (this.disabled) return '';
-      return this.reverse ? 'md-backward' : 'md-forward';
-    },
-    mode() {
-      if (this.disabled) return 'out-in';
-      return '';
+    disabled: {
+      type: Boolean,
+      default: false,
     },
   },
   data: () => ({
-    backup: {
-      parent: {
-        style: {
-          position: null,
-          minHeight: null,
-          maxHeight: null,
-          overflow: null,
-        },
-      },
-    },
+    a: null, // from
+    b: null, // to
+
+    aStyleVars: '',
+    bStyleVars: '',
   }),
+  computed: {
+    duration0() {
+      return !this.duration || Number.isNaN(this.duration) || this.duration <= 0;
+    },
+    direction() {
+      return this.reverse ? 'backward' : 'forward';
+    },
+  },
   methods: {
-    beforeLeave(el) {
-      if (this.disabled || !el) return;
-      this.setParentTemporaryStyle(el.parentElement);
+    beforeEnter(b) {
+      if (this.disabled) return;
+
+      this.b = b;
+      this.bStyleVars = '';
+      this.bStyleVars += `--duration: ${this.duration}ms; `;
+      this.bStyleVars += `--transform: translate3d(0, ${this.offsetTop}px, 0);`;
+
+      b.style.cssText += this.bStyleVars;
+      b.dataset.mdTransitionDuration = this.duration;
     },
-    afterEnter(el) {
-      if (this.disabled || !el) return;
-      this.unsetParentTemporaryStyle(el.parentElement);
+    beforeLeave(a) {
+      if (this.disabled) return;
+
+      this.a = a;
+      this.aStyleVars = '';
+      this.aStyleVars += `--width-a: ${getComputedStyle(a).width}; `;
+      this.aStyleVars += `--duration: ${this.duration}ms; `;
+      this.aStyleVars += `--transform: translate3d(0, ${this.offsetTop}px, 0);`;
+
+      a.style.cssText += this.aStyleVars;
     },
-    leaveCancelled(el) {
-      if (this.disabled || !el) return;
-      this.unsetParentTemporaryStyle(el.parentElement);
+
+    leave(a, done) {
+      if (this.disabled) return done();
+
+      if (a.classList.contains(`md-${this.direction}-b`)) {
+        a.classList.remove(`md-${this.direction}-b`);
+      }
+      this.$nextTick(() => a.classList.add(`md-${this.direction}-a`));
+
+      if (this.duration0) {
+        done();
+      } else {
+        a.addEventListener('animationend', done, { once: true });
+      }
+
+      return a;
     },
-    enterCancelled(el) {
-      if (this.disabled || !el) return;
-      this.unsetParentTemporaryStyle(el.parentElement);
+    enter(b, done) {
+      if (this.disabled) return done();
+
+      if (b.classList.contains(`md-${this.direction}-a`)) {
+        b.classList.remove(`md-${this.direction}-a`);
+      }
+      this.$nextTick(() => b.classList.add(`md-${this.direction}-b`));
+
+      if (this.duration0) {
+        done();
+      } else {
+        b.addEventListener('animationend', done, { once: true });
+      }
+
+      return b;
     },
-    setParentTemporaryStyle(parent) {
-      if (this.disabled || !parent) return;
-      if (this.backup.parent.style.position === null) {
-        this.backup.parent.style.position = parent.style.position;
+
+    afterEnter(b) {
+      if (this.disabled) return;
+
+      b.classList.remove(`md-${this.direction}-b`);
+      b.setAttribute('style', b.style.cssText.replace(this.bStyleVars, '').trim());
+      if (!b.getAttribute('style')) {
+        b.removeAttribute('style');
       }
-      if (this.backup.parent.style.minHeight === null) {
-        this.backup.parent.style.minHeight = parent.style.minHeight;
-      }
-      if (this.backup.parent.style.maxHeight === null) {
-        this.backup.parent.style.maxHeight = parent.style.maxHeight;
-      }
-      if (this.backup.parent.style.overflow === null) {
-        this.backup.parent.style.overflow = parent.style.overflow;
-      }
-      parent.style.position = 'relative';
-      parent.style.minHeight = '100vh';
-      parent.style.maxHeight = '100vh';
-      parent.style.overflow = 'hidden';
     },
-    unsetParentTemporaryStyle(parent) {
-      if (this.disabled || !parent) return;
-      if (parent.style.position === 'relative') {
-        parent.style.position = this.backup.parent.style.position;
+    afterLeave(a) {
+      if (this.disabled) return;
+
+      a.classList.remove(`md-${this.direction}-a`);
+      a.setAttribute('style', a.style.cssText.replace(this.aStyleVars, '').trim());
+      if (!a.getAttribute('style')) {
+        a.removeAttribute('style');
       }
-      if (parent.style.minHeight === '100vh') {
-        parent.style.minHeight = this.backup.parent.style.minHeight;
+    },
+
+    enterCancelled(b) {
+      if (this.disabled) return;
+
+      clearTimeout(window.__MD_TRANSITION_SCROLL_TIMEOUT__);
+
+      b.classList.remove(`md-${this.direction}-b`);
+      b.setAttribute('style', b.style.cssText.replace(this.bStyleVars, '').trim());
+      if (!b.getAttribute('style')) {
+        b.removeAttribute('style');
       }
-      if (parent.style.maxHeight === '100vh') {
-        parent.style.maxHeight = this.backup.parent.style.maxHeight;
-      }
-      if (parent.style.overflow === 'hidden') {
-        parent.style.overflow = this.backup.parent.style.overflow;
-      }
-      this.backup.parent.style.position = null;
-      this.backup.parent.style.minHeight = null;
-      this.backup.parent.style.maxHeight = null;
-      this.backup.parent.style.overflow = null;
-      if (parent.hasAttribute('style') && !parent.attributes.style.value) {
-        parent.removeAttribute('style');
+    },
+    leaveCancelled(a) {
+      if (this.disabled) return;
+
+      clearTimeout(window.__MD_TRANSITION_SCROLL_TIMEOUT__);
+
+      a.classList.remove(`md-${this.direction}-a`);
+      a.setAttribute('style', a.style.cssText.replace(this.aStyleVars, '').trim());
+      if (!a.getAttribute('style')) {
+        a.removeAttribute('style');
       }
     },
   },
@@ -109,91 +156,27 @@ export default {
 </script>
 
 <style scoped>
-/* nav push (from) */
-.md-forward-leave-active, .md-forward-leave-to {
-  /* detach current view from the normal document flow */
-  position: absolute;
-  /* prevent height collapse or expansion */
-  min-height: 100%;
-  /* retain full width in non-static positioned parent element */
-  left: 0;
-  right: 0;
-  /* place current view behind next view */
-  z-index: 0 !important;
-  /* remove current view ahead of time to prevent flash back issue */
-  animation: none calc(var(--md-transition-duration, 250ms) - 60ms);
-}
-/* nav push (to) */
-.md-forward-enter-active, .md-forward-enter-to {
-  position: relative;
-  /* place next view in front of current view */
-  z-index: 1 !important;
-  /* slide in next view */
-  animation: slideIn var(--md-transition-duration, 250ms);
-}
-
-/* nav back (from) */
-.md-backward-leave-active, .md-backward-leave-to {
-  /* detach current view from the normal document flow */
-  position: absolute;
-  /* prevent height collapse or expansion */
-  min-height: 100%;
-  /* retain full width in non-static positioned parent element */
-  left: 0;
-  right: 0;
-  /* place current view in front of previous view */
-  z-index: 1 !important;
-  /* slide out current view ahead of time to prevent flash back issue */
-  animation: slideOut calc(var(--md-transition-duration, 250ms) - 60ms);
-}
-/* nav back (to) */
-.md-backward-enter-active, .md-backward-enter-to {
-  position: relative;
-  /* place previous view behind current view */
-  z-index: 0 !important;
-  /* remove previous view after animation */
-  animation: none var(--md-transition-duration, 250ms);
-}
-
-/* additional middle layers for fading effect */
-.md-forward-leave-active::after, .md-forward-leave-to::after,
-.md-backward-enter-active::after, .md-backward-enter-to::after {
-  content: "";
-  position: absolute;
-  top: var(--md-app-bar-height, 56px);
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 999 !important;
-  background: var(--md-fading-background, #fafafa);
-}
-/* the layer after current view during nav push */
-.md-forward-leave-active::after, .md-forward-leave-to::after {
-  animation: fadeIn var(--md-transition-duration, 250ms);
-}
-/* the layer after previous view during nav back */
-.md-backward-enter-active::after, .md-backward-enter-to::after {
-  animation: fadeOut var(--md-transition-duration, 250ms);
-}
-
-@media screen and (min-width: 960px) {
-  .md-forward-enter-active, .md-forward-enter-to {
-    animation-name: slideInBig;
+@keyframes fadeOut {
+  from {
+    opacity: 1;
   }
-
-  .md-backward-leave-active, .md-backward-leave-to {
-    animation-name: slideOutBig;
+  to {
+    opacity: 0;
   }
-
-  .md-forward-leave-active::after, .md-forward-leave-to::after,
-  .md-backward-enter-active::after, .md-backward-enter-to::after {
-    top: var(--md-app-bar-height-large, 64px);
-  }
+}
+.md-forward-a {
+  width: var(--width-a);
+  min-height: inherit;
+  position: absolute;
+  z-index: 0;
+  animation-name: fadeOut;
+  animation-duration: var(--duration, 250ms);
+  animation-timing-function: ease-in;
 }
 
 @keyframes slideIn {
   from {
-    transform: translate3d(0, 56px, 0);
+    transform: var(--transform, translate3d(0, 56px, 0));
     opacity: 0;
   }
   to {
@@ -201,35 +184,34 @@ export default {
     opacity: 1;
   }
 }
-@keyframes slideInBig {
-  from {
-    transform: translate3d(0, 64px, 0);
-    opacity: 0;
-  }
-  to {
-    transform: translate3d(0, 0, 0);
-    opacity: 1;
-  }
+.md-forward-b {
+  position: relative;
+  z-index: 1;
+  user-select: none;
+  animation-name: slideIn;
+  animation-duration: var(--duration, 250ms);
+  animation-timing-function: ease-out;
 }
+
 @keyframes slideOut {
   from {
     transform: translate3d(0, 0, 0);
     opacity: 1;
   }
   to {
-    transform: translate3d(0, 56px, 0);
+    transform: var(--transform, translate3d(0, 56px, 0));
     opacity: 0;
   }
 }
-@keyframes slideOutBig {
-  from {
-    transform: translate3d(0, 0, 0);
-    opacity: 1;
-  }
-  to {
-    transform: translate3d(0, 64px, 0);
-    opacity: 0;
-  }
+.md-backward-a {
+  width: var(--width-a);
+  min-height: inherit;
+  position: absolute;
+  z-index: 1;
+  user-select: none;
+  animation-name: slideOut;
+  animation-duration: var(--duration, 250ms);
+  animation-timing-function: ease-out;
 }
 
 @keyframes fadeIn {
@@ -240,43 +222,11 @@ export default {
     opacity: 1;
   }
 }
-@keyframes fadeOut {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
-}
-
-/* set fading layer offset top to 128px when using an extended material design app bar */
-.md-app-bar-extended.md-forward-leave-active::after, .md-app-bar-extended.md-forward-leave-to::after,
-.md-app-bar-extended.md-backward-enter-active::after, .md-app-bar-extended.md-backward-enter-to::after {
-  top: 128px;
-}
-
-/* unset app bar offset top for the fading layers */
-.md-no-app-bar.md-forward-leave-active::after, .md-no-app-bar.md-forward-leave-to::after,
-.md-no-app-bar.md-backward-enter-active::after, .md-no-app-bar.md-backward-enter-to::after {
-  top: 0;
-}
-
-/* unset full width retainment */
-.md-auto-width.md-forward-leave-active, .md-auto-width.md-forward-leave-to,
-.md-auto-width.md-backward-leave-active, .md-auto-width.md-backward-leave-to {
-  left: unset;
-  right: unset;
-}
-
-/* unset min-height 100% for absolute positioned view */
-.md-auto-height.md-forward-leave-active, .md-auto-height.md-forward-leave-to,
-.md-auto-height.md-backward-leave-active, .md-auto-height.md-backward-leave-to {
-  min-height: unset;
-}
-
-/* dark theme */
-.md-dark.md-forward-leave-active::after, .md-dark.md-forward-leave-to::after,
-.md-dark.md-backward-enter-active::after, .md-dark.md-backward-enter-to::after {
-  background: var(--md-fading-background-dark, #121212);
+.md-backward-b {
+  position: relative;
+  z-index: 0;
+  animation-name: fadeIn;
+  animation-duration: var(--duration, 250ms);
+  animation-timing-function: ease-in;
 }
 </style>
