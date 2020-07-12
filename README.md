@@ -28,7 +28,7 @@ Include the UMD build after `vue` and `vue-router`, the component will be regist
 <script src="/path/to/vue-router-md-transition.umd.min.js"></script>
 ```
 
-📦 This package is available on [unpkg](https://unpkg.com/vue-router-md-transition), [jsdelivr](https://cdn.jsdelivr.net/npm/vue-router-md-transition), [bundle.run](https://bundle.run/vue-router-md-transition), etc...
+📦 This package is available on [unpkg](https://unpkg.com/vue-router-md-transition), [jsdelivr](https://cdn.jsdelivr.net/npm/vue-router-md-transition), [bundle.run](https://bundle.run/vue-router-md-transition), and so on.
 
 ##### ES module
 
@@ -60,25 +60,23 @@ export default {
 
 ### Props
 
-##### `offsetTop` (**Type**: `number` | **Default**: `64`)
+##### `offsetTop` (Type: `number` | Default: `64`)
 
 Used to fine tune the `translate3d` CSS function to match the height of the [top app bar](https://material.io/components/app-bars-top#specs) in Material Design spec.
 
-##### `duration` (**Type**: `number` | **Default**: `250`)
+##### `duration` (Type: `number` | Default: `250`)
 
 Transition duration in milliseconds.
 
-##### `reverse` (**Type**: `boolean` | **Default**: `false`)
+##### `reverse` (Type: `boolean` | Default: `false`)
 
 Reverse transition direction.
 
-##### `disabled` (**Type**: `boolean` | **Default**: `false`)
+##### `disabled` (Type: `boolean` | Default: `false`)
 
 Do not apply any transition.
 
-##### ...
-
-For other props, please refer to Vue's [official api doc]((https://vuejs.org/v2/api/#transition)) about the built-in `<transition>` component.
+... For other props, please refer to Vue's [official api doc](https://vuejs.org/v2/api/#transition) about the built-in `<transition>` component.
 
 ### Example
 
