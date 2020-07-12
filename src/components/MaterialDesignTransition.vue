@@ -59,6 +59,8 @@ export default {
 
       this.b = b;
       this.bStyleVars = '';
+      this.bStyleVars += `--transform-original: ${getComputedStyle(b).transform}; `;
+      this.bStyleVars += `--opacity-original: ${getComputedStyle(b).opacity}; `;
       this.bStyleVars += `--duration: ${this.duration}ms; `;
       this.bStyleVars += `--transform: translate3d(0, ${this.offsetTop}px, 0);`;
 
@@ -70,6 +72,8 @@ export default {
 
       this.a = a;
       this.aStyleVars = '';
+      this.aStyleVars += `--transform-original: ${getComputedStyle(a).transform}; `;
+      this.aStyleVars += `--opacity-original: ${getComputedStyle(a).opacity}; `;
       this.aStyleVars += `--width-a: ${getComputedStyle(a).width}; `;
       this.aStyleVars += `--duration: ${this.duration}ms; `;
       this.aStyleVars += `--transform: translate3d(0, ${this.offsetTop}px, 0);`;
@@ -158,7 +162,7 @@ export default {
 <style scoped>
 @keyframes fadeOut {
   from {
-    opacity: 1;
+    opacity: var(--opacity-original, 1);
   }
   to {
     opacity: 0;
@@ -180,8 +184,8 @@ export default {
     opacity: 0;
   }
   to {
-    transform: translate3d(0, 0, 0);
-    opacity: 1;
+    transform: var(--transform-original, translate3d(0, 0, 0));
+    opacity: var(--opacity-original, 1);
   }
 }
 .md-forward-b {
@@ -195,8 +199,8 @@ export default {
 
 @keyframes slideOut {
   from {
-    transform: translate3d(0, 0, 0);
-    opacity: 1;
+    transform: var(--transform-original, translate3d(0, 0, 0));
+    opacity: var(--opacity-original, 1);
   }
   to {
     transform: var(--transform, translate3d(0, 56px, 0));
@@ -219,7 +223,7 @@ export default {
     opacity: 0;
   }
   to {
-    opacity: 1;
+    opacity: var(--opacity-original, 1);
   }
 }
 .md-backward-b {
