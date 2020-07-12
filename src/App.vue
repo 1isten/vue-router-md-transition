@@ -2,7 +2,11 @@
   <v-app dark>
     <nav-drawer />
 
-    <md-transition class="md-dark" :reverse="routeBack" :disabled="transitionDisabled">
+    <md-transition
+      :duration="300"
+      :reverse="isRouteBack"
+      :disabled="transitionDisabled"
+    >
       <keep-alive>
         <router-view />
       </keep-alive>
@@ -21,31 +25,22 @@ export default {
     'md-transition': MaterialDesignTransition,
   },
   data: () => ({
-    routeBack: false,
+    isRouteBack: false,
     transitionDisabled: false,
   }),
   watch: {
     $route(to, from) {
       this.transitionDisabled = !from.name;
       if (to.path === '/') {
-        this.routeBack = true;
-        return;
+        this.isRouteBack = true;
+      } else if (from.path === '/') {
+        this.isRouteBack = false;
+      } else {
+        const toDepth = to.path.split('/').length;
+        const fromDepth = from.path.split('/').length;
+        this.isRouteBack = toDepth < fromDepth;
       }
-      if (from.path === '/') {
-        this.routeBack = false;
-        return;
-      }
-      const toDepth = to.path.split('/').length;
-      const fromDepth = from.path.split('/').length;
-      this.routeBack = toDepth < fromDepth;
     },
   },
 };
 </script>
-
-<style>
-:root {
-  background-color: #121212;
-  --md-transition-duration: 400ms;
-}
-</style>

@@ -14,6 +14,7 @@
         <v-flex shrink>
           <v-img
             :src="require('../assets/logo.svg')"
+            min-width="131"
             height="200"
             contain
           ></v-img>
@@ -41,7 +42,3 @@ export default {
   name: 'Home',
 };
 </script>
-
-<style scoped>
-
-</style>
