@@ -130,7 +130,7 @@ export default {
 </script>
 ```
 
-##### Not Only for Vue Router
+### Not Only for Vue Router
 
 You can also use it in regular transitions, just like the built-in `<transition>`:
 
