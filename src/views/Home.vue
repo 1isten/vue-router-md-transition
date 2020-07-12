@@ -24,13 +24,21 @@
           <h1 class="display-1 font-weight-black">
             I ♥️ Vuetify
           </h1>
+          <br>
           <p class="body-1">
-            <br><a href="https://github.com/1isten/vue-router-md-transition" target="_blank" rel="noopener noreferrer">@vue-router-md-transition</a>
+            <a class="info--text" href="https://github.com/1isten/vue-router-md-transition" target="_blank" rel="noopener noreferrer">@vue-router-md-transition</a>
           </p>
           <p class="body-2">
             Material Design<br />
             navigation transition effect
           </p>
+        </v-flex>
+
+        <v-flex shrink>
+          <v-switch
+            v-model="transition"
+            :label="transition ? 'ON' : 'OFF'"
+          ></v-switch>
         </v-flex>
       </v-layout>
     </v-container>
@@ -40,5 +48,15 @@
 <script>
 export default {
   name: 'Home',
+  computed: {
+    transition: {
+      get() {
+        return this.$store.state.transition;
+      },
+      set(val) {
+        this.$store.dispatch('toggleTransition', val);
+      },
+    },
+  },
 };
 </script>

@@ -3,9 +3,10 @@
     <nav-drawer />
 
     <md-transition
+      :offset-top="$vuetify.application.top"
       :duration="300"
       :reverse="isRouteBack"
-      :disabled="transitionDisabled"
+      :disabled="!$store.getters.transitionEnabled || transitionDisabled"
     >
       <keep-alive>
         <router-view />
@@ -21,8 +22,8 @@ import NavDrawer from '@/components/NavDrawer.vue';
 export default {
   name: 'App',
   components: {
-    'nav-drawer': NavDrawer,
     'md-transition': MaterialDesignTransition,
+    'nav-drawer': NavDrawer,
   },
   data: () => ({
     isRouteBack: false,
