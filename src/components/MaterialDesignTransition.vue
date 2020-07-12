@@ -1,16 +1,16 @@
 <template>
   <transition
     name="md-transition"
-    :duration="duration"
+    :mode="disabled ? 'out-in' : ''"
+    :duration="disabled || duration0 ? 0 : {}"
 
     @before-enter="beforeEnter"
-    @enter="enter"
-    @after-enter="afterEnter"
-    @enter-cancelled="enterCancelled"
-
     @before-leave="beforeLeave"
-    @leave="leave"
+    :leave-active-class="disabled ? '' : `md-transition-${this.direction}-a`"
+    :enter-active-class="disabled ? '' : `md-transition-${this.direction}-b`"
+    @after-enter="afterEnter"
     @after-leave="afterLeave"
+    @enter-cancelled="enterCancelled"
     @leave-cancelled="leaveCancelled"
   >
     <slot></slot>
@@ -55,7 +55,7 @@ export default {
   },
   methods: {
     beforeEnter(b) {
-      if (this.disabled) return;
+      if (this.disabled) return b.removeAttribute('data-md-transition-duration');
 
       this.b = b;
       this.bStyleVars = '';
@@ -81,39 +81,39 @@ export default {
       a.style.cssText += this.aStyleVars;
     },
 
-    leave(a, done) {
-      if (this.disabled) return done();
+    // leave(a, done) {
+    //   if (this.disabled) return setTimeout(done);
 
-      if (a.classList.contains(`md-transition-${this.direction}-b`)) {
-        a.classList.remove(`md-transition-${this.direction}-b`);
-      }
-      this.$nextTick(() => a.classList.add(`md-transition-${this.direction}-a`));
+    //   if (a.classList.contains(`md-transition-${this.direction}-b`)) {
+    //     a.classList.remove(`md-transition-${this.direction}-b`);
+    //   }
+    //   this.$nextTick(() => a.classList.add(`md-transition-${this.direction}-a`));
 
-      if (this.duration0) {
-        done();
-      } else {
-        a.addEventListener('animationend', done, { once: true });
-      }
-    },
-    enter(b, done) {
-      if (this.disabled) return done();
+    //   if (this.duration0) {
+    //     done();
+    //   } else {
+    //     a.addEventListener('animationend', done, { once: true });
+    //   }
+    // },
+    // enter(b, done) {
+    //   if (this.disabled) return setTimeout(done);
 
-      if (b.classList.contains(`md-transition-${this.direction}-a`)) {
-        b.classList.remove(`md-transition-${this.direction}-a`);
-      }
-      this.$nextTick(() => b.classList.add(`md-transition-${this.direction}-b`));
+    //   if (b.classList.contains(`md-transition-${this.direction}-a`)) {
+    //     b.classList.remove(`md-transition-${this.direction}-a`);
+    //   }
+    //   this.$nextTick(() => b.classList.add(`md-transition-${this.direction}-b`));
 
-      if (this.duration0) {
-        done();
-      } else {
-        b.addEventListener('animationend', done, { once: true });
-      }
-    },
+    //   if (this.duration0) {
+    //     done();
+    //   } else {
+    //     b.addEventListener('animationend', done, { once: true });
+    //   }
+    // },
 
     afterEnter(b) {
       if (this.disabled) return;
 
-      b.classList.remove(`md-transition-${this.direction}-b`);
+      // b.classList.remove(`md-transition-${this.direction}-b`);
       b.setAttribute('style', b.style.cssText.replace(this.bStyleVars, '').trim());
       if (!b.getAttribute('style')) {
         b.removeAttribute('style');
@@ -122,7 +122,7 @@ export default {
     afterLeave(a) {
       if (this.disabled) return;
 
-      a.classList.remove(`md-transition-${this.direction}-a`);
+      // a.classList.remove(`md-transition-${this.direction}-a`);
       a.setAttribute('style', a.style.cssText.replace(this.aStyleVars, '').trim());
       if (!a.getAttribute('style')) {
         a.removeAttribute('style');
@@ -132,24 +132,22 @@ export default {
     enterCancelled(b) {
       if (this.disabled) return;
 
-      clearTimeout(window.__MD_TRANSITION_SCROLL_TIMEOUT__);
-
-      b.classList.remove(`md-transition-${this.direction}-b`);
+      // b.classList.remove(`md-transition-${this.direction}-b`);
       b.setAttribute('style', b.style.cssText.replace(this.bStyleVars, '').trim());
       if (!b.getAttribute('style')) {
         b.removeAttribute('style');
       }
+      clearTimeout(window.__MD_TRANSITION_SCROLL_TIMEOUT__); // if any
     },
     leaveCancelled(a) {
       if (this.disabled) return;
 
-      clearTimeout(window.__MD_TRANSITION_SCROLL_TIMEOUT__);
-
-      a.classList.remove(`md-transition-${this.direction}-a`);
+      // a.classList.remove(`md-transition-${this.direction}-a`);
       a.setAttribute('style', a.style.cssText.replace(this.aStyleVars, '').trim());
       if (!a.getAttribute('style')) {
         a.removeAttribute('style');
       }
+      clearTimeout(window.__MD_TRANSITION_SCROLL_TIMEOUT__); // if any
     },
   },
 };
@@ -191,6 +189,7 @@ export default {
   animation-name: slideIn;
   animation-duration: var(--duration, 250ms);
   animation-timing-function: ease-out;
+  animation-delay: 60; /* prevent flashback */
 }
 
 @keyframes slideOut {
@@ -212,6 +211,7 @@ export default {
   animation-name: slideOut;
   animation-duration: var(--duration, 250ms);
   animation-timing-function: ease-out;
+  animation-delay: 60; /* prevent flashback */
 }
 
 @keyframes fadeIn {
