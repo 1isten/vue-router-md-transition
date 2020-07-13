@@ -1,8 +1,8 @@
 <template>
   <transition
-    name="md-transition"
-    :mode="disabled ? 'out-in' : ''"
-    :duration="disabled || duration0 ? 0 : {}"
+    :name="`md-transition-${direction}`"
+    :mode="isDisabled ? 'out-in' : ''"
+    :duration="isDisabled ? 0 : {}"
 
     @before-enter="beforeEnter"
     @before-leave="beforeLeave"
@@ -41,30 +41,26 @@ export default {
     },
   },
   data: () => ({
-    a: null, // leave from
-    b: null, // enter to
+    a: null, // leave (from)
+    b: null, // enter (to)
 
     aStyleVars: '',
     bStyleVars: '',
   }),
   computed: {
     duration0() {
-      return !this.duration || Number.isNaN(this.duration) || this.duration <= 0;
+      return !this.duration || Number.isNaN(+this.duration) || this.duration <= 0;
     },
     direction() {
       return this.reverse ? 'backward' : 'forward';
     },
-
-    leaveActiveClass() {
-      return 'md-transition-leave-active' + (this.disabled ? '' : ` md-transition-${this.direction}-a`);
-    },
-    enterActiveClass() {
-      return 'md-transition-enter-active' + (this.disabled ? '' : ` md-transition-${this.direction}-b`);
+    isDisabled() {
+      return this.disabled || this.duration0;
     },
   },
   methods: {
     beforeEnter(b) {
-      if (this.disabled) return b.removeAttribute('data-md-transition-duration');
+      if (this.isDisabled) return b.removeAttribute('data-md-transition-duration');
 
       this.b = b;
       this.bStyleVars = '';
@@ -77,7 +73,7 @@ export default {
       b.dataset.mdTransitionDuration = this.duration;
     },
     beforeLeave(a) {
-      if (this.disabled) return;
+      if (this.isDisabled) return;
 
       this.a = a;
       this.aStyleVars = '';
@@ -91,66 +87,66 @@ export default {
     },
 
     leave(a, done) {
-      if (this.disabled) return setTimeout(done);
+      if (this.isDisabled) return done();
 
-      if (a.classList.contains(`md-transition-${this.direction}-b`)) {
-        a.classList.remove(`md-transition-${this.direction}-b`);
+      if (a.classList.contains(`md-transition-${this.direction}-enter-active`)) {
+        a.classList.remove(`md-transition-${this.direction}-enter-active`);
       }
-      this.$nextTick(() => a.classList.add(`md-transition-${this.direction}-a`));
 
-      if (this.duration0) {
-        done();
-      } else {
-        a.addEventListener('animationend', done, { once: true });
-      }
+      a.addEventListener('animationend', done, { once: true });
+      this.$nextTick(() => a.classList.add(`md-transition-${this.direction}-leave-active`));
     },
     enter(b, done) {
-      if (this.disabled) return setTimeout(done);
+      if (this.isDisabled) return done();
 
-      if (b.classList.contains(`md-transition-${this.direction}-a`)) {
-        b.classList.remove(`md-transition-${this.direction}-a`);
+      if (b.classList.contains(`md-transition-${this.direction}-leave-active`)) {
+        b.classList.remove(`md-transition-${this.direction}-leave-active`);
       }
-      this.$nextTick(() => b.classList.add(`md-transition-${this.direction}-b`));
 
-      if (this.duration0) {
-        done();
-      } else {
-        b.addEventListener('animationend', done, { once: true });
-      }
+      b.addEventListener('animationend', done, { once: true });
+      this.$nextTick(() => b.classList.add(`md-transition-${this.direction}-enter-active`));
     },
 
     enterCancelled(b) {
-      if (this.disabled) return;
+      if (this.isDisabled) return;
 
-      clearTimeout(window.__MD_TRANSITION_SCROLL_TIMEOUT__);
-
-      b.classList.remove(`md-transition-${this.direction}-b`);
+      b.classList.remove(`md-transition-${this.direction}-enter-active`);
       b.setAttribute('style', b.style.cssText.replace(this.bStyleVars, '').trim());
-      if (!b.getAttribute('style')) b.removeAttribute('style');
+      if (!b.getAttribute('style')) {
+        b.removeAttribute('style');
+      }
+      // if any, can be used with vue router scroll behavior
+      clearTimeout(window.__MD_TRANSITION_SCROLL_TIMEOUT__);
     },
     leaveCancelled(a) {
-      if (this.disabled) return;
+      if (this.isDisabled) return;
 
-      clearTimeout(window.__MD_TRANSITION_SCROLL_TIMEOUT__);
-
-      a.classList.remove(`md-transition-${this.direction}-a`);
+      a.classList.remove(`md-transition-${this.direction}-leave-active`);
       a.setAttribute('style', a.style.cssText.replace(this.aStyleVars, '').trim());
-      if (!a.getAttribute('style')) a.removeAttribute('style');
+      if (!a.getAttribute('style')) {
+        a.removeAttribute('style');
+      }
+      // if any, can be used with vue router scroll behavior
+      clearTimeout(window.__MD_TRANSITION_SCROLL_TIMEOUT__);
     },
 
     afterEnter(b) {
-      if (this.disabled) return;
+      if (this.isDisabled) return;
 
-      b.classList.remove(`md-transition-${this.direction}-b`);
+      b.classList.remove(`md-transition-${this.direction}-enter-active`);
       b.setAttribute('style', b.style.cssText.replace(this.bStyleVars, '').trim());
-      if (!b.getAttribute('style')) b.removeAttribute('style');
+      if (!b.getAttribute('style')) {
+        b.removeAttribute('style');
+      }
     },
     afterLeave(a) {
-      if (this.disabled) return;
+      if (this.isDisabled) return;
 
-      a.classList.remove(`md-transition-${this.direction}-a`);
+      a.classList.remove(`md-transition-${this.direction}-leave-active`);
       a.setAttribute('style', a.style.cssText.replace(this.aStyleVars, '').trim());
-      if (!a.getAttribute('style')) a.removeAttribute('style');
+      if (!a.getAttribute('style')) {
+        a.removeAttribute('style');
+      }
     },
   },
 };
@@ -165,7 +161,8 @@ export default {
     opacity: 0;
   }
 }
-.md-transition-leave-active.md-transition-forward-a {
+/* leave (from) a */
+.md-transition-forward-leave-active {
   width: var(--width-a);
   min-height: inherit;
   position: absolute;
@@ -185,7 +182,8 @@ export default {
     opacity: var(--opacity-original, 1);
   }
 }
-.md-transition-enter-active.md-transition-forward-b {
+/* enter (to) b */
+.md-transition-forward-enter-active {
   position: relative;
   z-index: 1;
   user-select: none;
@@ -204,7 +202,8 @@ export default {
     opacity: 0;
   }
 }
-.md-transition-leave-active.md-transition-backward-a {
+/* leave (from) a */
+.md-transition-backward-leave-active {
   width: var(--width-a);
   min-height: inherit;
   position: absolute;
@@ -223,7 +222,8 @@ export default {
     opacity: var(--opacity-original, 1);
   }
 }
-.md-transition-enter-active.md-transition-backward-b {
+/* enter (to) b */
+.md-transition-backward-enter-active {
   position: relative;
   z-index: 0;
   animation-name: fadeIn;
