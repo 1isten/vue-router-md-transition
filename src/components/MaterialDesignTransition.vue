@@ -1,7 +1,10 @@
 <template>
   <transition
     :name="`md-transition-${direction}`"
+    :mode="isDisabled ? 'out-in' : ''"
     :duration="isDisabled ? 0 : {}"
+
+    :css="false"
 
     @before-enter="beforeEnter"
     @before-leave="beforeLeave"
@@ -11,10 +14,10 @@
     :enter-active-class="isDisabled ? '' : `md-transition-${direction}-enter-active`"
     :enter-to-class="''"
     @enter="enter"
-    @enter-cancelled="enterCancelled"
-    @leave-cancelled="leaveCancelled"
     @after-enter="afterEnter"
     @after-leave="afterLeave"
+    @enter-cancelled="enterCancelled"
+    @leave-cancelled="leaveCancelled"
   >
     <slot></slot>
   </transition>
@@ -93,8 +96,7 @@ export default {
       if (a.classList.contains(`md-transition-${this.direction}-enter-active`)) {
         a.classList.remove(`md-transition-${this.direction}-enter-active`);
       }
-      this.$nextTick(() => a.classList.add(`md-transition-${this.direction}-leave-active`));
-
+      a.classList.add(`md-transition-${this.direction}-leave-active`)
       a.addEventListener('animationend', done, { once: true });
     },
     enter(b, done) {
@@ -103,9 +105,27 @@ export default {
       if (b.classList.contains(`md-transition-${this.direction}-leave-active`)) {
         b.classList.remove(`md-transition-${this.direction}-leave-active`);
       }
-      this.$nextTick(() => b.classList.add(`md-transition-${this.direction}-enter-active`));
-
+      b.classList.add(`md-transition-${this.direction}-enter-active`)
       b.addEventListener('animationend', done, { once: true });
+    },
+
+    afterEnter(b) {
+      if (this.isDisabled) return;
+
+      b.classList.remove(`md-transition-${this.direction}-enter-active`);
+      b.setAttribute('style', b.style.cssText.replace(this.bStyleVars, '').trim());
+      if (!b.getAttribute('style')) {
+        b.removeAttribute('style');
+      }
+    },
+    afterLeave(a) {
+      if (this.isDisabled) return;
+
+      a.classList.remove(`md-transition-${this.direction}-leave-active`);
+      a.setAttribute('style', a.style.cssText.replace(this.aStyleVars, '').trim());
+      if (!a.getAttribute('style')) {
+        a.removeAttribute('style');
+      }
     },
 
     enterCancelled(b) {
@@ -127,25 +147,6 @@ export default {
         a.removeAttribute('style');
       }
       clearTimeout(window.__MD_TRANSITION_SCROLL_TIMEOUT__);
-    },
-
-    afterEnter(b) {
-      if (this.isDisabled) return;
-
-      b.classList.remove(`md-transition-${this.direction}-enter-active`);
-      b.setAttribute('style', b.style.cssText.replace(this.bStyleVars, '').trim());
-      if (!b.getAttribute('style')) {
-        b.removeAttribute('style');
-      }
-    },
-    afterLeave(a) {
-      if (this.isDisabled) return;
-
-      a.classList.remove(`md-transition-${this.direction}-leave-active`);
-      a.setAttribute('style', a.style.cssText.replace(this.aStyleVars, '').trim());
-      if (!a.getAttribute('style')) {
-        a.removeAttribute('style');
-      }
     },
   },
 };
