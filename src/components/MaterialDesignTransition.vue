@@ -1,15 +1,16 @@
 <template>
   <transition
     :name="`md-transition-${direction}`"
-    :mode="isDisabled ? 'out-in' : ''"
     :duration="isDisabled ? 0 : {}"
 
     @before-enter="beforeEnter"
     @before-leave="beforeLeave"
-    @leave="leave"
+    :leave-active-class="isDisabled ? '' : `md-transition-${direction}-leave-active`"
     :leave-to-class="''"
-    @enter="enter"
+    @leave="leave"
+    :enter-active-class="isDisabled ? '' : `md-transition-${direction}-enter-active`"
     :enter-to-class="''"
+    @enter="enter"
     @enter-cancelled="enterCancelled"
     @leave-cancelled="leaveCancelled"
     @after-enter="afterEnter"
@@ -92,9 +93,9 @@ export default {
       if (a.classList.contains(`md-transition-${this.direction}-enter-active`)) {
         a.classList.remove(`md-transition-${this.direction}-enter-active`);
       }
+      this.$nextTick(() => a.classList.add(`md-transition-${this.direction}-leave-active`));
 
       a.addEventListener('animationend', done, { once: true });
-      this.$nextTick(() => a.classList.add(`md-transition-${this.direction}-leave-active`));
     },
     enter(b, done) {
       if (this.isDisabled) return done();
@@ -102,9 +103,9 @@ export default {
       if (b.classList.contains(`md-transition-${this.direction}-leave-active`)) {
         b.classList.remove(`md-transition-${this.direction}-leave-active`);
       }
+      this.$nextTick(() => b.classList.add(`md-transition-${this.direction}-enter-active`));
 
       b.addEventListener('animationend', done, { once: true });
-      this.$nextTick(() => b.classList.add(`md-transition-${this.direction}-enter-active`));
     },
 
     enterCancelled(b) {
@@ -115,7 +116,6 @@ export default {
       if (!b.getAttribute('style')) {
         b.removeAttribute('style');
       }
-      // if any, can be used with vue router scroll behavior
       clearTimeout(window.__MD_TRANSITION_SCROLL_TIMEOUT__);
     },
     leaveCancelled(a) {
@@ -126,7 +126,6 @@ export default {
       if (!a.getAttribute('style')) {
         a.removeAttribute('style');
       }
-      // if any, can be used with vue router scroll behavior
       clearTimeout(window.__MD_TRANSITION_SCROLL_TIMEOUT__);
     },
 
