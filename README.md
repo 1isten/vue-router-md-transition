@@ -2,6 +2,7 @@
 
 A simple transparent wrapper component for Vue's built-in [`<transition>` component](https://vuejs.org/v2/guide/transitions.html#Transitioning-Single-Elements-Components) with [Material Design transition effect](https://material.io/design/navigation/navigation-transitions.html#hierarchical-transitions) baked in.
 
+> 🔔 v1 is outdated, consider upgrading to v2!
 
 ### Demo
 
