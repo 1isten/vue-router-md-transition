@@ -7956,10 +7956,10 @@ vue-loader@^15.8.3:
     vue-hot-reload-api "^2.3.0"
     vue-style-loader "^4.1.0"
 
-vue-router-md-transition@^2.0.6:
-  version "2.0.6"
-  resolved "https://registry.npmjs.org/vue-router-md-transition/-/vue-router-md-transition-2.0.6.tgz#4ef5dbc3f223cf63f37276b2962f0cfc4a852deb"
-  integrity sha512-hHsjJz/2D41P83yj2D/Xy/urCs1YoNgNY6Rexq9/gmWU2CDn0frdapRfYZPgoPNdoNA3fN/4bNFPvVXhF6s4aQ==
+vue-router-md-transition@^2.0.7:
+  version "2.0.7"
+  resolved "https://registry.npmjs.org/vue-router-md-transition/-/vue-router-md-transition-2.0.7.tgz#c36924ccc778c32e8e0aaef4d12b5368710da3b0"
+  integrity sha512-e3ufZ9Xss6rZpzEMhN0e07fxHbCeAcmCGQnM+zKOqD+PRUBl2iQ/fkPYwrTmSTQ++BIduKebpzMYEzIR7KFL3w==
 
 vue-router@^3.3.4:
   version "3.3.4"
