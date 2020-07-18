@@ -1,5 +1,5 @@
-import Vue from "vue";
-import Vuex from "vuex";
+import Vue from 'vue';
+import Vuex from 'vuex';
 
 Vue.use(Vuex);
 
@@ -27,10 +27,10 @@ export default new Vuex.Store({
   },
   actions: {
     toggleTransition({ commit, getters }, payload) {
-      commit("TOGGLE_TRANSITION", payload || !getters.transitionEnabled);
+      commit('TOGGLE_TRANSITION', payload || !getters.transitionEnabled);
     },
     toggleDrawer({ commit, getters }, payload) {
-      commit("TOGGLE_DRAWER", payload || { drawer: !getters.drawerOpened });
+      commit('TOGGLE_DRAWER', payload || { drawer: !getters.drawerOpened });
     },
   },
   modules: {},

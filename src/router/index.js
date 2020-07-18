@@ -1,7 +1,7 @@
-import Vue from "vue";
-import VueRouter from "vue-router";
-// import store from "@/store";
-import Home from "@/views/Home.vue";
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+// import store from '@/store';
+import Home from '@/views/Home.vue';
 
 Vue.use(VueRouter);
 
@@ -10,37 +10,36 @@ export default new VueRouter({
   // base: process.env.BASE_URL,
   routes: [
     {
-      path: "/",
-      name: "home",
+      path: '/',
+      name: 'home',
       components: {
         default: Home,
       },
     },
     {
-      path: "/about",
-      name: "about",
+      path: '/about',
+      name: 'about',
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       components: {
-        default: () =>
-          import(/* webpackChunkName: "about" */ "@/views/About.vue"),
+        default: () => import(/* webpackChunkName: "about" */ '@/views/About.vue'),
       },
     },
   ],
   // scrollBehavior(to, from, savedPosition) {
-  //   const toDepth = to.path.split("/").length;
-  //   const fromDepth = from.path.split("/").length;
+  //   const toDepth = to.path.split('/').length;
+  //   const fromDepth = from.path.split('/').length;
   //   const isRouteBack = toDepth < fromDepth;
   //   if (to.hash) {
-  //     window.scroll({ top: 0, left: 0, behavior: "auto" });
+  //     window.scroll({ top: 0, left: 0, behavior: 'auto' });
   //     return new Promise((resolve) => {
   //       const anchor = document.querySelector(to.hash);
   //       const top = anchor ? anchor.offsetTop - 10 : 0;
   //       const d = store.state.transitionDuration;
   //       window.__VUE_MD_TRANSITION_SCROLL_TIMEOUT__ = setTimeout(
   //         () => {
-  //           resolve(window.scroll({ top, left: 0, behavior: "smooth" }));
+  //           resolve(window.scroll({ top, left: 0, behavior: 'smooth' }));
   //         },
   //         d > 0 ? d + 100 : 0
   //       );
