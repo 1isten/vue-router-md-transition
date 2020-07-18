@@ -3,12 +3,14 @@
     <nav-drawer />
 
     <md-transition
-      :offset-top="$vuetify.application.top"
-      :duration="300"
+      :offset-top="$vuetify.application.top || undefined"
+      :duration="$store.state.transitionDuration"
       :reverse="isRouteBack"
       :disabled="!$store.getters.transitionEnabled || transitionDisabled"
     >
-      <router-view />
+      <keep-alive>
+        <router-view />
+      </keep-alive>
     </md-transition>
   </v-app>
 </template>
