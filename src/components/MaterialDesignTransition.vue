@@ -112,7 +112,7 @@ export default {
       if (a.classList.contains(`md-transition-${this.direction}-enter-active`)) {
         a.classList.remove(`md-transition-${this.direction}-enter-active`);
       }
-      a.classList.add(`md-transition-${this.direction}-leave-active`)
+      a.classList.add(`md-transition-${this.direction}-leave-active`);
       a.addEventListener('animationend', done, { once: true });
     },
     enter(b, done) {
@@ -121,13 +121,13 @@ export default {
       if (b.classList.contains(`md-transition-${this.direction}-leave-active`)) {
         b.classList.remove(`md-transition-${this.direction}-leave-active`);
       }
-      b.classList.add(`md-transition-${this.direction}-enter-active`)
+      b.classList.add(`md-transition-${this.direction}-enter-active`);
       b.addEventListener('animationend', done, { once: true });
     },
 
     afterEnter(b) {
       // b will be a on next frame, save it so `beforeEnter` can access `this.a`
-      (this.$nextTick || setTimeout)(() => this.a = b);
+      (this && this.$nextTick || setTimeout)(() => this.a = b);
 
       if (this.isDisabled) return;
 
