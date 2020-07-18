@@ -1,11 +1,12 @@
 <template>
   <transition
+    :css="false"
+
     :name="`md-transition-${direction}`"
     :mode="isDisabled ? 'out-in' : ''"
     :duration="isDisabled ? 0 : {}"
 
-    :css="false"
-
+    @appear="appear"
     @before-enter="beforeEnter"
     @before-leave="beforeLeave"
     :leave-active-class="isDisabled ? '' : `md-transition-${direction}-leave-active`"
@@ -63,13 +64,28 @@ export default {
     },
   },
   methods: {
+    // just for triggering `afterEnter` on the initial render
+    appear(a) {
+      return a;
+    },
+
     beforeEnter(b) {
       if (this.isDisabled) return b.removeAttribute('data-md-transition-duration');
 
+      // before b is inserted, retain some styles of a that may be lost because of `position: absolute`
+      if (this.a) {
+        const aStyle = getComputedStyle(this.a);
+        this.aStyleVars = '';
+        this.aStyleVars += `--width-a: ${aStyle.width}; `;
+        this.aStyleVars += `--height-a: ${aStyle.height}; `;
+        this.aStyleVars += `--margin-a: ${aStyle.margin}; `;
+      }
+
       this.b = b;
+      const bStyle = getComputedStyle(this.b);
       this.bStyleVars = '';
-      this.bStyleVars += `--transform-original: ${getComputedStyle(b).transform}; `;
-      this.bStyleVars += `--opacity-original: ${getComputedStyle(b).opacity}; `;
+      this.bStyleVars += `--transform-original: ${bStyle.transform}; `;
+      this.bStyleVars += `--opacity-original: ${bStyle.opacity}; `;
       this.bStyleVars += `--duration: ${this.duration}ms; `;
       this.bStyleVars += `--transform: translate3d(0, ${this.offsetTop}px, 0);`;
 
@@ -80,10 +96,10 @@ export default {
       if (this.isDisabled) return;
 
       this.a = a;
-      this.aStyleVars = '';
-      this.aStyleVars += `--transform-original: ${getComputedStyle(a).transform}; `;
-      this.aStyleVars += `--opacity-original: ${getComputedStyle(a).opacity}; `;
-      this.aStyleVars += `--width-a: ${getComputedStyle(a).width}; `;
+      const aStyle = getComputedStyle(this.a);
+      if (!this.aStyleVars) this.aStyleVars = '';
+      this.aStyleVars += `--transform-original: ${aStyle.transform}; `;
+      this.aStyleVars += `--opacity-original: ${aStyle.opacity}; `;
       this.aStyleVars += `--duration: ${this.duration}ms; `;
       this.aStyleVars += `--transform: translate3d(0, ${this.offsetTop}px, 0);`;
 
@@ -110,43 +126,41 @@ export default {
     },
 
     afterEnter(b) {
+      // b will be a on next frame, save it so `beforeEnter` can access `this.a`
+      (this.$nextTick || setTimeout)(() => this.a = b);
+
       if (this.isDisabled) return;
 
       b.classList.remove(`md-transition-${this.direction}-enter-active`);
       b.setAttribute('style', b.style.cssText.replace(this.bStyleVars, '').trim());
-      if (!b.getAttribute('style')) {
-        b.removeAttribute('style');
-      }
+      if (!b.getAttribute('style')) b.removeAttribute('style');
+      b.removeAttribute('data-md-transition-duration');
     },
     afterLeave(a) {
       if (this.isDisabled) return;
 
       a.classList.remove(`md-transition-${this.direction}-leave-active`);
       a.setAttribute('style', a.style.cssText.replace(this.aStyleVars, '').trim());
-      if (!a.getAttribute('style')) {
-        a.removeAttribute('style');
-      }
+      if (!a.getAttribute('style')) a.removeAttribute('style');
     },
 
     enterCancelled(b) {
+      clearTimeout(window.__MD_TRANSITION_SCROLL_TIMEOUT__); // if any
+
       if (this.isDisabled) return;
 
       b.classList.remove(`md-transition-${this.direction}-enter-active`);
       b.setAttribute('style', b.style.cssText.replace(this.bStyleVars, '').trim());
-      if (!b.getAttribute('style')) {
-        b.removeAttribute('style');
-      }
-      clearTimeout(window.__MD_TRANSITION_SCROLL_TIMEOUT__);
+      if (!b.getAttribute('style')) b.removeAttribute('style');
     },
     leaveCancelled(a) {
+      clearTimeout(window.__MD_TRANSITION_SCROLL_TIMEOUT__); // if any
+
       if (this.isDisabled) return;
 
       a.classList.remove(`md-transition-${this.direction}-leave-active`);
       a.setAttribute('style', a.style.cssText.replace(this.aStyleVars, '').trim());
-      if (!a.getAttribute('style')) {
-        a.removeAttribute('style');
-      }
-      clearTimeout(window.__MD_TRANSITION_SCROLL_TIMEOUT__);
+      if (!a.getAttribute('style')) a.removeAttribute('style');
     },
   },
 };
@@ -164,7 +178,8 @@ export default {
 /* leave (from) a */
 .md-transition-forward-leave-active {
   width: var(--width-a);
-  min-height: inherit;
+  height: var(--height-a);
+  margin: var(--margin-a);
   position: absolute;
   z-index: 0;
   animation-name: fadeOut;
@@ -205,7 +220,8 @@ export default {
 /* leave (from) a */
 .md-transition-backward-leave-active {
   width: var(--width-a);
-  min-height: inherit;
+  height: var(--height-a);
+  margin: var(--margin-a);
   position: absolute;
   z-index: 1;
   user-select: none;
