@@ -6,7 +6,6 @@
     :mode="isDisabled ? 'out-in' : ''"
     :duration="isDisabled ? 0 : {}"
 
-    @appear="appear"
     @before-enter="beforeEnter"
     @before-leave="beforeLeave"
     :leave-active-class="isDisabled ? '' : `md-transition-${direction}-leave-active`"
@@ -64,22 +63,8 @@ export default {
     },
   },
   methods: {
-    // just for triggering `afterEnter` on the initial render
-    appear(a) {
-      return a;
-    },
-
     beforeEnter(b) {
-      if (this.isDisabled) return b.removeAttribute('data-md-transition-duration');
-
-      // before b is inserted, retain some styles of a that may be lost because of `position: absolute`
-      if (this.a) {
-        const aStyle = getComputedStyle(this.a);
-        this.aStyleVars = '';
-        this.aStyleVars += `--width-a: ${aStyle.width}; `;
-        this.aStyleVars += `--height-a: ${aStyle.height}; `;
-        this.aStyleVars += `--margin-a: ${aStyle.margin}; `;
-      }
+      if (this.isDisabled) return;
 
       this.b = b;
       const bStyle = getComputedStyle(this.b);
@@ -88,53 +73,45 @@ export default {
       this.bStyleVars += `--opacity-original: ${bStyle.opacity}; `;
       this.bStyleVars += `--duration: ${this.duration}ms; `;
       this.bStyleVars += `--transform: translate3d(0, ${this.offsetTop}px, 0);`;
-
       b.style.cssText += this.bStyleVars;
-      b.dataset.mdTransitionDuration = this.duration;
+      b.classList.add('md-transition-hidden'); // hide b before a's width, height, margin, etc., are computed
     },
     beforeLeave(a) {
       if (this.isDisabled) return;
 
       this.a = a;
       const aStyle = getComputedStyle(this.a);
-      if (!this.aStyleVars) this.aStyleVars = '';
+      this.aStyleVars = '';
+      this.aStyleVars += `--width-a: ${aStyle.width}; `;
+      this.aStyleVars += `--height-a: ${aStyle.height}; `;
+      this.aStyleVars += `--margin-a: ${aStyle.marginTop} ${aStyle.marginRight} ${aStyle.marginBottom} ${aStyle.marginLeft}; `;
       this.aStyleVars += `--transform-original: ${aStyle.transform}; `;
       this.aStyleVars += `--opacity-original: ${aStyle.opacity}; `;
       this.aStyleVars += `--duration: ${this.duration}ms; `;
       this.aStyleVars += `--transform: translate3d(0, ${this.offsetTop}px, 0);`;
-
       a.style.cssText += this.aStyleVars;
+      this.b.classList.remove('md-transition-hidden'); // unhide b after a's width, height, margin, etc., are computed
     },
 
     leave(a, done) {
       if (this.isDisabled) return done();
 
-      if (a.classList.contains(`md-transition-${this.direction}-enter-active`)) {
-        a.classList.remove(`md-transition-${this.direction}-enter-active`);
-      }
-      a.classList.add(`md-transition-${this.direction}-leave-active`);
       a.addEventListener('animationend', done, { once: true });
+      a.classList.add(`md-transition-${this.direction}-leave-active`);
     },
     enter(b, done) {
       if (this.isDisabled) return done();
 
-      if (b.classList.contains(`md-transition-${this.direction}-leave-active`)) {
-        b.classList.remove(`md-transition-${this.direction}-leave-active`);
-      }
-      b.classList.add(`md-transition-${this.direction}-enter-active`);
       b.addEventListener('animationend', done, { once: true });
+      b.classList.add(`md-transition-${this.direction}-enter-active`);
     },
 
     afterEnter(b) {
-      // b will be a on next frame, save it so `beforeEnter` can access `this.a`
-      (this && this.$nextTick || setTimeout)(() => this.a = b);
-
       if (this.isDisabled) return;
 
       b.classList.remove(`md-transition-${this.direction}-enter-active`);
       b.setAttribute('style', b.style.cssText.replace(this.bStyleVars, '').trim());
       if (!b.getAttribute('style')) b.removeAttribute('style');
-      b.removeAttribute('data-md-transition-duration');
     },
     afterLeave(a) {
       if (this.isDisabled) return;
@@ -145,22 +122,22 @@ export default {
     },
 
     enterCancelled(b) {
-      clearTimeout(window.__MD_TRANSITION_SCROLL_TIMEOUT__); // if any
-
       if (this.isDisabled) return;
 
-      b.classList.remove(`md-transition-${this.direction}-enter-active`);
+      b.classList.remove('md-transition-forward-enter-active');
+      b.classList.remove('md-transition-backward-enter-active');
       b.setAttribute('style', b.style.cssText.replace(this.bStyleVars, '').trim());
       if (!b.getAttribute('style')) b.removeAttribute('style');
+      // clearTimeout(window.__VUE_MD_TRANSITION_SCROLL_TIMEOUT__);
     },
     leaveCancelled(a) {
-      clearTimeout(window.__MD_TRANSITION_SCROLL_TIMEOUT__); // if any
-
       if (this.isDisabled) return;
 
-      a.classList.remove(`md-transition-${this.direction}-leave-active`);
+      a.classList.remove('md-transition-forward-enter-active');
+      a.classList.remove('md-transition-backward-enter-active');
       a.setAttribute('style', a.style.cssText.replace(this.aStyleVars, '').trim());
       if (!a.getAttribute('style')) a.removeAttribute('style');
+      // clearTimeout(window.__VUE_MD_TRANSITION_SCROLL_TIMEOUT__);
     },
   },
 };
@@ -245,5 +222,11 @@ export default {
   animation-name: fadeIn;
   animation-duration: var(--duration, 250ms);
   animation-timing-function: ease-in;
+}
+</style>
+
+<style>
+.md-transition-hidden {
+  display: none !important;
 }
 </style>
