@@ -8,11 +8,11 @@
 }
 /* leave (from) a */
 .md-transition-forward-leave-active {
-  width: var(--width-a);
-  height: var(--height-a);
-  margin: var(--margin-a);
-  position: absolute;
-  z-index: 0;
+  width: var(--width-a) !important;
+  height: var(--height-a) !important;
+  margin: var(--margin-a) !important;
+  position: absolute !important;
+  z-index: 0 !important;
   animation-name: fadeOut;
   animation-duration: var(--duration, 250ms);
   animation-timing-function: ease-in;
@@ -30,8 +30,8 @@
 }
 /* enter (to) b */
 .md-transition-forward-enter-active {
-  position: relative;
-  z-index: 1;
+  position: relative !important;
+  z-index: 1 !important;
   user-select: none;
   animation-name: slideIn;
   animation-duration: var(--duration, 250ms);
@@ -50,11 +50,11 @@
 }
 /* leave (from) a */
 .md-transition-backward-leave-active {
-  width: var(--width-a);
-  height: var(--height-a);
-  margin: var(--margin-a);
-  position: absolute;
-  z-index: 1;
+  width: var(--width-a) !important;
+  height: var(--height-a) !important;
+  margin: var(--margin-a) !important;
+  position: absolute !important;
+  z-index: 1 !important;
   user-select: none;
   animation-name: slideOut;
   animation-duration: var(--duration, 250ms);
@@ -71,8 +71,8 @@
 }
 /* enter (to) b */
 .md-transition-backward-enter-active {
-  position: relative;
-  z-index: 0;
+  position: relative !important;
+  z-index: 0 !important;
   animation-name: fadeIn;
   animation-duration: var(--duration, 250ms);
   animation-timing-function: ease-in;
