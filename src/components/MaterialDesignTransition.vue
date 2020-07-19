@@ -22,28 +22,16 @@
 </template>
 
 <script>
-import MaterialDesignTransition from './MaterialDesignTransition';
+import MaterialDesignTransition from '@/assets/MaterialDesignTransition.js';
 
 export default {
   name: 'MaterialDesignTransition',
-  props: {
-    offsetTop: {
-      type: Number,
-      default: 64,
-    },
-    duration: {
-      type: Number,
-      default: 250,
-    },
-    reverse: {
-      type: Boolean,
-      default: false,
-    },
-    disabled: {
-      type: Boolean,
-      default: false,
-    },
-  },
+  props: [
+    'offsetTop',
+    'duration',
+    'reverse',
+    'disabled',
+  ],
   computed: {
     md() {
       return MaterialDesignTransition({
@@ -57,6 +45,6 @@ export default {
 };
 </script>
 
-<style src="./MaterialDesignTransition.css" scoped>
+<style src="@/assets/MaterialDesignTransition.css" scoped>
 
 </style>

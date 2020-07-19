@@ -49,7 +49,7 @@ export default (props = {}) => {
       data.aStyleVars += `--duration: ${props.duration}ms; `;
       data.aStyleVars += `--transform: translate3d(0, ${props.offsetTop}px, 0);`;
       a.style.cssText += data.aStyleVars;
-      data.b.classList.remove('md-transition-hidden'); // unhide b after a's width, height, margin, etc., are computed
+      if (data.b) data.b.classList.remove('md-transition-hidden'); // unhide b after a's width, height, margin, etc., are computed
     },
 
     leave(a, done) {
