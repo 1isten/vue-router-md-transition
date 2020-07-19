@@ -8,9 +8,9 @@
       :reverse="isRouteBack"
       :disabled="transitionDisabled || $store.getters.transitionDisabled"
     >
-      <keep-alive>
+      <!-- <keep-alive> -->
         <router-view />
-      </keep-alive>
+      <!-- </keep-alive> -->
     </md-transition>
   </v-app>
 </template>
