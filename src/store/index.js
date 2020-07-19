@@ -10,8 +10,8 @@ export default new Vuex.Store({
     drawer: null,
   },
   getters: {
-    transitionEnabled(state) {
-      return !!state.transition;
+    transitionDisabled(state) {
+      return !state.transition;
     },
     drawerOpened(state) {
       return !!state.drawer;
@@ -26,11 +26,11 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    toggleTransition({ commit, getters }, payload) {
-      commit('TOGGLE_TRANSITION', payload || !getters.transitionEnabled);
+    toggleTransition({ commit, state }, payload) {
+      commit("TOGGLE_TRANSITION", payload || !state.transition);
     },
     toggleDrawer({ commit, getters }, payload) {
-      commit('TOGGLE_DRAWER', payload || { drawer: !getters.drawerOpened });
+      commit("TOGGLE_DRAWER", payload || { drawer: !getters.drawerOpened });
     },
   },
   modules: {},
