@@ -1,0 +1,83 @@
+@keyframes fadeOut {
+  from {
+    opacity: var(--opacity-original, 1);
+  }
+  to {
+    opacity: 0;
+  }
+}
+/* leave (from) a */
+.md-transition-forward-leave-active {
+  width: var(--width-a);
+  height: var(--height-a);
+  margin: var(--margin-a);
+  position: absolute;
+  z-index: 0;
+  animation-name: fadeOut;
+  animation-duration: var(--duration, 250ms);
+  animation-timing-function: ease-in;
+}
+
+@keyframes slideIn {
+  from {
+    transform: var(--transform, translate3d(0, 56px, 0));
+    opacity: 0;
+  }
+  to {
+    transform: var(--transform-original, translate3d(0, 0, 0));
+    opacity: var(--opacity-original, 1);
+  }
+}
+/* enter (to) b */
+.md-transition-forward-enter-active {
+  position: relative;
+  z-index: 1;
+  user-select: none;
+  animation-name: slideIn;
+  animation-duration: var(--duration, 250ms);
+  animation-timing-function: ease-out;
+}
+
+@keyframes slideOut {
+  from {
+    transform: var(--transform-original, translate3d(0, 0, 0));
+    opacity: var(--opacity-original, 1);
+  }
+  to {
+    transform: var(--transform, translate3d(0, 56px, 0));
+    opacity: 0;
+  }
+}
+/* leave (from) a */
+.md-transition-backward-leave-active {
+  width: var(--width-a);
+  height: var(--height-a);
+  margin: var(--margin-a);
+  position: absolute;
+  z-index: 1;
+  user-select: none;
+  animation-name: slideOut;
+  animation-duration: var(--duration, 250ms);
+  animation-timing-function: ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: var(--opacity-original, 1);
+  }
+}
+/* enter (to) b */
+.md-transition-backward-enter-active {
+  position: relative;
+  z-index: 0;
+  animation-name: fadeIn;
+  animation-duration: var(--duration, 250ms);
+  animation-timing-function: ease-in;
+}
+
+.md-transition-hidden {
+  display: none !important;
+}
