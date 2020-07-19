@@ -1,6 +1,6 @@
 export default function (props = {}) {
-  if (!props.offsetTop) props.offsetTop = 64;
-  if (!props.duration) props.duration = 250;
+  props.offsetTop = typeof props.offsetTop === 'number' && props.offsetTop <= 0 ? 0 : Number.isNaN(+props.offsetTop / +props.offsetTop) ? 64 : props.offsetTop || 64;
+  props.duration = typeof props.duration === 'number' && props.duration <= 0 ? 0 : Number.isNaN(+props.duration / +props.duration) ? 250 : props.duration || 250;
   props.reverse = !!props.reverse;
   props.disabled = !!props.disabled;
 
@@ -13,13 +13,9 @@ export default function (props = {}) {
   };
 
   const computed = {
-    duration0: undefined,
-    direction: undefined,
-    isDisabled: undefined,
+    direction: props.reverse ? 'backward' : 'forward',
+    isDisabled: props.disabled || props.duration <= 0,
   };
-  computed.duration0 = !props.duration || Number.isNaN(+props.duration) || props.duration <= 0;
-  computed.direction = props.reverse ? 'backward' : 'forward';
-  computed.isDisabled = props.disabled || computed.duration0;
 
   const methods = {
     beforeEnter,
