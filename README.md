@@ -77,7 +77,7 @@ Reverse transition direction.
 
 Do not apply any transition.
 
-... For other props, please refer to Vue's [official api doc](https://vuejs.org/v2/api/#transition) about the built-in `<transition>` component.
+... For other props, please refer to Vue's [official api doc](https://vuejs.org/v2/api/#transition) of the built-in `<transition>` component.
 
 ### Example
 
@@ -141,5 +141,3 @@ You can also use it in regular transitions, just like the built-in `<transition>
   <div key="bar" v-else>Bar</div>
 </md-transition>
 ```
-
-Or, you can simply copy the [MaterialDesignTransition.vue](https://github.com/1isten/vue-router-md-transition/blob/master/src/components/MaterialDesignTransition.vue) file to your own project, tweak it and use it like any other Vue components.
