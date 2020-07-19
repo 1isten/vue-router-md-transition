@@ -7,7 +7,7 @@
     "transition",
     "vue",
     "vue router",
-    "sfc"
+    "vue component"
   ],
   "files": [
     "dist",
