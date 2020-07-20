@@ -7958,10 +7958,10 @@ vue-loader@^15.8.3:
     vue-hot-reload-api "^2.3.0"
     vue-style-loader "^4.1.0"
 
-vue-router-md-transition@^2.3.0:
-  version "2.3.0"
-  resolved "https://registry.npmjs.org/vue-router-md-transition/-/vue-router-md-transition-2.3.0.tgz#68d29958a3c52b1edae5c4af38578b19f0bc073c"
-  integrity sha512-kJjIauzA49GQbwst6UjYgBRLMV9HY8ZihHhOTMwH9xc/GncE4pUyurmA9myrz3r4R7i+WyEdVbjoUxSnpJNslQ==
+vue-router-md-transition@^2.3.3:
+  version "2.3.3"
+  resolved "https://registry.npmjs.org/vue-router-md-transition/-/vue-router-md-transition-2.3.3.tgz#9870fd3af4ca603f3df6e7c49f833fd87e80e64f"
+  integrity sha512-ruwyJ9Q83j0PhhBS0uSetOrOcO5HF/JafmreTbPqLtUbzjs5OkjBmVvXgcp/eiaPp92WbuOcsRJa/+IrZAthLQ==
 
 vue-router@^3.3.4:
   version "3.3.4"
@@ -8002,7 +8002,7 @@ vuetify-loader@^1.6.0:
     file-loader "^4.0.0"
     loader-utils "^1.2.0"
 
-vuetify@^2.3.4:
+vuetify@^2.3.3:
   version "2.3.4"
   resolved "https://registry.npmjs.org/vuetify/-/vuetify-2.3.4.tgz#fdb03b3281d40a8420b0295ea865843abdc69792"
   integrity sha512-vMtCNqv5BhrjfTfIhH2Lptoxx7z/Nu1NfBiZ2oCvI2QbTagMlhF5GMXgbnnyTGIjooFf/ozKznuMxk6tuI5cxw==
