@@ -8,10 +8,21 @@
       :reverse="isRouteBack"
       :disabled="transitionDisabled || $store.getters.transitionDisabled"
     >
-      <!-- <keep-alive> -->
-        <router-view />
-      <!-- </keep-alive> -->
+      <router-view name="top" />
     </md-transition>
+
+    <v-main>
+      <md-transition
+        :offset-top="$vuetify.application.top"
+        :duration="$store.state.transitionDuration + $store.state.transitionDuration * 0.1 * (isRouteBack ? -1 : 1)"
+        :reverse="isRouteBack"
+        :disabled="transitionDisabled || $store.getters.transitionDisabled"
+      >
+        <keep-alive>
+          <router-view />
+        </keep-alive>
+      </md-transition>
+    </v-main>
   </v-app>
 </template>
 

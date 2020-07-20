@@ -1,7 +1,9 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import store from '@/store';
+import TopHome from '@/views/TopHome.vue';
 import Home from '@/views/Home.vue';
+import TopAbout from '@/views/TopAbout.vue';
 import About from '@/views/About.vue';
 
 Vue.use(VueRouter);
@@ -14,6 +16,7 @@ export default new VueRouter({
       path: '/',
       name: 'home',
       components: {
+        top: TopHome,
         default: Home,
       },
     },
@@ -21,6 +24,7 @@ export default new VueRouter({
       path: '/about',
       name: 'about',
       components: {
+        top: TopAbout,
         default: About,
       },
     },
@@ -31,6 +35,7 @@ export default new VueRouter({
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       components: {
+        top: () => import(/* webpackChunkName: "top-not-found" */ '@/views/Top404.vue'),
         default: () => import(/* webpackChunkName: "not-found" */ '@/views/404.vue'),
       },
     },
