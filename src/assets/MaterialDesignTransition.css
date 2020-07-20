@@ -9,9 +9,11 @@
 /* leave (from) a */
 .md-transition-forward-leave-active,
 .md-transition-forward-leave-active[data-v-md-transition] {
-  width: var(--md-transition-width-a);
-  height: var(--md-transition-height-a);
-  margin: var(--md-transition-margin-a);
+  width: var(--md-transition-width-a, 100%);
+  height: var(--md-transition-height-a, auto);
+  min-height: var(--md-transition-height-a, inherit);
+  max-height: var(--md-transition-height-a, 100vh);
+  margin: var(--md-transition-margin-a, 0);
   position: absolute;
   z-index: 0;
   animation-name: fadeOut;
@@ -53,9 +55,11 @@
 /* leave (from) a */
 .md-transition-backward-leave-active,
 .md-transition-backward-leave-active[data-v-md-transition] {
-  width: var(--md-transition-width-a);
-  height: var(--md-transition-height-a);
-  margin: var(--md-transition-margin-a);
+  width: var(--md-transition-width-a, 100%);
+  height: var(--md-transition-height-a, auto);
+  min-height: var(--md-transition-height-a, inherit);
+  max-height: var(--md-transition-height-a, 100vh);
+  margin: var(--md-transition-margin-a, 0);
   position: absolute;
   z-index: 1;
   user-select: none;
