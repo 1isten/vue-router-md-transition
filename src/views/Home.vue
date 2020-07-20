@@ -1,5 +1,5 @@
 <template>
-  <v-content>
+  <v-main>
     <v-app-bar app dark tag="section">
       <v-app-bar-nav-icon @click="$store.dispatch('toggleDrawer')" class="d-lg-none" />
       <v-toolbar-title>Home</v-toolbar-title>
@@ -21,14 +21,14 @@
         </v-flex>
 
         <v-flex shrink>
-          <h1 class="display-1 font-weight-black">
+          <h1 class="text-h4 font-weight-black">
             I ♥️ Vuetify
           </h1>
           <br>
-          <p class="body-1">
+          <p class="text-body-1">
             <a class="info--text" href="https://github.com/1isten/vue-router-md-transition" target="_blank" rel="noopener noreferrer">@vue-router-md-transition</a>
           </p>
-          <p class="body-2">
+          <p class="text-body-2">
             Material Design<br />
             navigation transition effect
           </p>
@@ -42,7 +42,7 @@
         </v-flex>
       </v-layout>
     </v-container>
-  </v-content>
+  </v-main>
 </template>
 
 <script>

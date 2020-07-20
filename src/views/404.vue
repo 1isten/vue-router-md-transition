@@ -1,5 +1,5 @@
 <template>
-  <v-content>
+  <v-main>
     <v-app-bar app dark color="error" tag="section">
       <v-btn icon @click="$router.back()" class="d-lg-none">
         <v-icon>mdi-arrow-left</v-icon>
@@ -13,7 +13,7 @@
         <p>Page not found</p>
       </v-layout>
     </v-container>
-  </v-content>
+  </v-main>
 </template>
 
 <script>

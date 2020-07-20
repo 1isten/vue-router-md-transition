@@ -1,5 +1,5 @@
 <template>
-  <v-content>
+  <v-main>
     <v-app-bar app dark color="accent" tag="section">
       <v-btn icon @click="$router.back()" class="d-lg-none">
         <v-icon>mdi-arrow-left</v-icon>
@@ -17,7 +17,7 @@
         <p>Vivamus id felis id quam malesuada aliquam. Nam purus mi, tempus non commodo non, aliquet id purus. Duis a enim id elit consectetur ullamcorper. Sed faucibus ipsum sed laoreet tincidunt. Praesent sagittis mauris eu elit euismod, et pulvinar nisi placerat. Interdum et malesuada fames ac ante ipsum primis in faucibus. Mauris egestas euismod magna non dapibus. Nunc sit amet feugiat odio, id pellentesque leo. Vivamus mi magna, tempor in velit vitae, dictum placerat orci. Pellentesque mattis ut est eu faucibus. Nulla dictum congue leo id faucibus. Sed eleifend velit sed ante elementum dignissim. Phasellus viverra, mi eu hendrerit imperdiet, lacus arcu luctus justo, eu maximus massa turpis molestie mauris. Fusce sed euismod quam. Cras mi nisl, consectetur at sollicitudin ut, maximus a odio.</p>
       </article>
     </v-container>
-  </v-content>
+  </v-main>
 </template>
 
 <script>
