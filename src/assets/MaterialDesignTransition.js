@@ -63,6 +63,7 @@ export default function (props = {}) {
       done();
       afterLeave(a);
     }, { once: true });
+    a.setAttribute('data-v-md-transition', '');
     a.classList.add(`md-transition-${computed.direction}-leave-active`);
   }
   function enter(b, done) {
@@ -72,6 +73,7 @@ export default function (props = {}) {
       done();
       afterEnter(b);
     }, { once: true });
+    b.setAttribute('data-v-md-transition', '');
     b.classList.add(`md-transition-${computed.direction}-enter-active`);
   }
   function afterEnter(b) {
@@ -80,6 +82,7 @@ export default function (props = {}) {
     b.classList.remove(`md-transition-${computed.direction}-enter-active`);
     b.setAttribute('style', b.style.cssText.replace(data.bStyleVars, '').trim());
     if (!b.getAttribute('style')) b.removeAttribute('style');
+    b.removeAttribute('data-v-md-transition');
   }
   function afterLeave(a) {
     if (computed.isDisabled) return;
@@ -87,6 +90,7 @@ export default function (props = {}) {
     a.classList.remove(`md-transition-${computed.direction}-leave-active`);
     a.setAttribute('style', a.style.cssText.replace(data.aStyleVars, '').trim());
     if (!a.getAttribute('style')) a.removeAttribute('style');
+    a.removeAttribute('data-v-md-transition');
   }
   function enterCancelled(b) {
     if (computed.isDisabled) return;
@@ -95,6 +99,7 @@ export default function (props = {}) {
     b.classList.remove('md-transition-backward-enter-active');
     b.setAttribute('style', b.style.cssText.replace(data.bStyleVars, '').trim());
     if (!b.getAttribute('style')) b.removeAttribute('style');
+    b.removeAttribute('data-v-md-transition');
     // clearTimeout(window.__VUE_MD_TRANSITION_SCROLL_TIMEOUT__);
   }
   function leaveCancelled(a) {
@@ -104,6 +109,7 @@ export default function (props = {}) {
     a.classList.remove('md-transition-backward-enter-active');
     a.setAttribute('style', a.style.cssText.replace(data.aStyleVars, '').trim());
     if (!a.getAttribute('style')) a.removeAttribute('style');
+    a.removeAttribute('data-v-md-transition');
     // clearTimeout(window.__VUE_MD_TRANSITION_SCROLL_TIMEOUT__);
   }
 
