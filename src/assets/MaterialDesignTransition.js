@@ -97,9 +97,7 @@ export default function (props = {}) {
 
     b.classList.remove('md-transition-forward-enter-active');
     b.classList.remove('md-transition-backward-enter-active');
-    b.setAttribute('style', b.style.cssText.replace(data.bStyleVars, '').trim());
-    if (!b.getAttribute('style')) b.removeAttribute('style');
-    b.removeAttribute('data-v-md-transition');
+    afterEnter(b);
     // clearTimeout(window.__VUE_MD_TRANSITION_SCROLL_TIMEOUT__);
   }
   function leaveCancelled(a) {
@@ -107,9 +105,7 @@ export default function (props = {}) {
 
     a.classList.remove('md-transition-forward-enter-active');
     a.classList.remove('md-transition-backward-enter-active');
-    a.setAttribute('style', a.style.cssText.replace(data.aStyleVars, '').trim());
-    if (!a.getAttribute('style')) a.removeAttribute('style');
-    a.removeAttribute('data-v-md-transition');
+    afterLeave(a);
     // clearTimeout(window.__VUE_MD_TRANSITION_SCROLL_TIMEOUT__);
   }
 
