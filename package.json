@@ -1,6 +1,6 @@
 {
   "name": "vue-router-md-transition-demo",
-  "version": "2.2.3",
+  "version": "2.3.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -15,7 +15,7 @@
     "smoothscroll-polyfill": "^0.4.4",
     "vue": "^2.6.11",
     "vue-router": "^3.3.4",
-    "vue-router-md-transition": "^2.2.3",
+    "vue-router-md-transition": "^2.3.0",
     "vuetify": "^2.3.4",
     "vuex": "^3.5.1"
   },
@@ -30,7 +30,7 @@
     "eslint-plugin-vue": "^6.2.2",
     "sass": "^1.26.10",
     "sass-loader": "^8.0.2",
-    "vue-cli-plugin-vuetify": "^2.0.6",
+    "vue-cli-plugin-vuetify": "^2.0.7",
     "vue-template-compiler": "^2.6.11",
     "vuetify-loader": "^1.6.0",
     "webfontloader": "^1.6.28"
