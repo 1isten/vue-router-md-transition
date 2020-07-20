@@ -33,10 +33,10 @@ export default function (props = {}) {
     data.b = b;
     const bStyle = getComputedStyle(b);
     data.bStyleVars = '';
-    data.bStyleVars += `--transform-original: ${bStyle.transform}; `;
-    data.bStyleVars += `--opacity-original: ${bStyle.opacity}; `;
-    data.bStyleVars += `--duration: ${props.duration}ms; `;
-    data.bStyleVars += `--transform: translate3d(0, ${props.offsetTop}px, 0);`;
+    data.bStyleVars += `--md-transition-transform-original: ${bStyle.transform}; `;
+    data.bStyleVars += `--md-transition-opacity-original: ${bStyle.opacity}; `;
+    data.bStyleVars += `--md-transition-duration: ${props.duration}ms; `;
+    data.bStyleVars += `--md-transition-transform: translate3d(0, ${props.offsetTop}px, 0);`;
     b.style.cssText += data.bStyleVars;
     b.classList.add('md-transition-hidden'); // hide b before a's width, height, margin, etc., are computed
   }
@@ -46,13 +46,13 @@ export default function (props = {}) {
     data.a = a;
     const aStyle = getComputedStyle(a);
     data.aStyleVars = '';
-    data.aStyleVars += `--width-a: ${aStyle.width}; `;
-    data.aStyleVars += `--height-a: ${aStyle.height}; `;
-    data.aStyleVars += `--margin-a: ${aStyle.marginTop} ${aStyle.marginRight} ${aStyle.marginBottom} ${aStyle.marginLeft}; `;
-    data.aStyleVars += `--transform-original: ${aStyle.transform}; `;
-    data.aStyleVars += `--opacity-original: ${aStyle.opacity}; `;
-    data.aStyleVars += `--duration: ${props.duration}ms; `;
-    data.aStyleVars += `--transform: translate3d(0, ${props.offsetTop}px, 0);`;
+    data.aStyleVars += `--md-transition-width-a: ${aStyle.width}; `;
+    data.aStyleVars += `--md-transition-height-a: ${aStyle.height}; `;
+    data.aStyleVars += `--md-transition-margin-a: ${aStyle.marginTop} ${aStyle.marginRight} ${aStyle.marginBottom} ${aStyle.marginLeft}; `;
+    data.aStyleVars += `--md-transition-transform-original: ${aStyle.transform}; `;
+    data.aStyleVars += `--md-transition-opacity-original: ${aStyle.opacity}; `;
+    data.aStyleVars += `--md-transition-duration: ${props.duration}ms; `;
+    data.aStyleVars += `--md-transition-transform: translate3d(0, ${props.offsetTop}px, 0);`;
     a.style.cssText += data.aStyleVars;
     if (data.b) data.b.classList.remove('md-transition-hidden'); // unhide b after a's width, height, margin, etc., are computed
   }
