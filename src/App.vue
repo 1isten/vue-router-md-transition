@@ -56,3 +56,9 @@ export default {
   },
 };
 </script>
+
+<style>
+.v-app-bar.v-app-bar--fixed {
+  position: fixed !important;
+}
+</style>
