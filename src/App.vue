@@ -61,11 +61,13 @@ export default {
 @keyframes md-transition-fade-in {
   from {
     opacity: var(--md-transition-opacity-b, 1);
+    box-shadow: none;
   }
 }
 @keyframes md-transition-fade-out {
   to {
     opacity: var(--md-transition-opacity-a, 1);
+    box-shadow: none;
   }
 }
 
