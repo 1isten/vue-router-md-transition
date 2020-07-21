@@ -58,7 +58,25 @@ export default {
 </script>
 
 <style>
+@keyframes md-transition-fade-in {
+  from {
+    opacity: var(--md-transition-opacity-b, 1);
+  }
+}
+@keyframes md-transition-fade-out {
+  to {
+    opacity: var(--md-transition-opacity-a, 1);
+  }
+}
+
 .v-app-bar.v-app-bar--fixed {
   position: fixed !important;
+}
+.v-app-bar.md-transition-backward-leave-active {
+  z-index: 6 !important;
+}
+
+section.container {
+  background: #121212;
 }
 </style>
