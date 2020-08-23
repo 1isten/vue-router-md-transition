@@ -3,7 +3,7 @@ import App from './App.vue';
 import router from './router';
 import store from './store';
 import vuetify from './plugins/vuetify';
-import smoothscroll from "smoothscroll-polyfill";
+import smoothscroll from 'smoothscroll-polyfill';
 smoothscroll.polyfill();
 
 Vue.config.productionTip = false;

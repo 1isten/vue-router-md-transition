@@ -27,10 +27,10 @@ export default new Vuex.Store({
   },
   actions: {
     toggleTransition({ commit, state }, payload) {
-      commit("TOGGLE_TRANSITION", payload || !state.transition);
+      commit('TOGGLE_TRANSITION', payload || !state.transition);
     },
     toggleDrawer({ commit, getters }, payload) {
-      commit("TOGGLE_DRAWER", payload || { drawer: !getters.drawerOpened });
+      commit('TOGGLE_DRAWER', payload || { drawer: !getters.drawerOpened });
     },
   },
   modules: {},
