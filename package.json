@@ -1,6 +1,6 @@
 {
   "name": "vue-router-md-transition-demo",
-  "version": "2.4.0",
+  "version": "2.4.1",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -15,7 +15,7 @@
     "smoothscroll-polyfill": "^0.4.4",
     "vue": "^2.6.12",
     "vue-router": "^3.4.3",
-    "vue-router-md-transition": "^2.4.0",
+    "vue-router-md-transition": "^2.4.1",
     "vuetify": "^2.3.10",
     "vuex": "^3.5.1"
   },
