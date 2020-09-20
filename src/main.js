@@ -1,6 +1,8 @@
-import Vue from 'vue';
 import MaterialDesignTransition from '@/components/MaterialDesignTransition.js';
 
-Vue.component('md-transition', MaterialDesignTransition);
+const Vue = typeof window !== 'undefined' && window.Vue;
+if (Vue) {
+  Vue.component('md-transition', MaterialDesignTransition);
+}
 
 export default MaterialDesignTransition;
